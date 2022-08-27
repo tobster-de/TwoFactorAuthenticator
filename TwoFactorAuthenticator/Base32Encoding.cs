@@ -5,7 +5,7 @@ namespace TwoFactorAuthenticator
     /// <summary>
     /// http://stackoverflow.com/questions/641361/base32-decoding
     /// </summary>
-    public class Base32Encoding
+    public static class Base32Encoding
     {
         /// <summary>
         /// Base32 encoded string to byte[]
@@ -119,7 +119,7 @@ namespace TwoFactorAuthenticator
                 return value - 97;
             }
 
-            throw new ArgumentException("Character is not a Base32 character.", nameof(c));
+            throw new ArgumentException(Resources.Base32Encoding_CharToValue_CharacterInvalid, nameof(c));
         }
 
         private static char ValueToChar(byte b)
@@ -134,7 +134,7 @@ namespace TwoFactorAuthenticator
                 return (char) (b + 24);
             }
 
-            throw new ArgumentException("Byte is not a value Base32 value.", nameof(b));
+            throw new ArgumentException(Resources.Base32Encoding_ValueToChar_ByteValueInvalid, nameof(b));
         }
     }
 }

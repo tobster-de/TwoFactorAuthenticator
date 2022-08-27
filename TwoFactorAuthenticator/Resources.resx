@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="TwoFactorAuthenticator_GenerateQrCodeUrl_QRException_PixelsPerModule" xml:space="preserve">
+        <value>There was a problem generating a QR code. The value of {0} should be set to a value of 10 or less for optimal results.</value>
+    </data>
+    <data name="TwoFactorAuthenticator_GenerateSetupCode_ArgumentException_AccountTitle" xml:space="preserve">
+        <value>Account title is null.</value>
+    </data>
+    <data name="Base32Encoding_CharToValue_CharacterInvalid" xml:space="preserve">
+        <value>Character is not a Base32 character.</value>
+    </data>
+    <data name="Base32Encoding_ValueToChar_ByteValueInvalid" xml:space="preserve">
+        <value>Byte is not a value Base32 value.</value>
+    </data>
+</root>
