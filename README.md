@@ -1,10 +1,16 @@
-# GoogleAuthenticator
-Simple, easy to use server-side two-factor authentication library for .NET that works with Google Authenticator
+# TwoFactorAuthenticator
+Simple, easy to use server-side/desktop two-factor authentication library for .NET that works with authenticator apps
+e.g. from [Google](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2), 
+from [Microsoft](https://play.google.com/store/apps/details?id=com.azure.authenticator), 
+[Authy](https://play.google.com/store/apps/details?id=com.authy.authy) 
+or [LastPass](https://play.google.com/store/apps/details?id=com.lastpass.authenticator).
 
+<!---
 [![Build Status](https://dev.azure.com/brandon-potter/GoogleAuthenticator/_apis/build/status/BrandonPotter.GoogleAuthenticator?branchName=master)](https://dev.azure.com/brandon-potter/GoogleAuthenticator/_build/latest?definitionId=1&branchName=master)
 [![NuGet Status](https://buildstats.info/nuget/GoogleAuthenticator)](https://www.nuget.org/packages/GoogleAuthenticator/)
 
 [`Install-Package GoogleAuthenticator`](https://www.nuget.org/packages/GoogleAuthenticator)
+--->
 
 ## Usage
 
@@ -13,7 +19,7 @@ Simple, easy to use server-side two-factor authentication library for .NET that 
 `key` should be stored by your application for future authentication and shouldn't be regenerated for each request. The process of storing the private key is outside the scope of this library and is the responsibility of the application.
 
 ```csharp
-using Google.Authenticator;
+using TwoFactorAuthenticator;
 
 string key = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 10);
 
@@ -31,6 +37,7 @@ TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
 bool result = tfa.ValidateTwoFactorPIN(key, txtCode.Text)
 ```
 
+<!---
 ## Update history
 
 ### 3.0.0
@@ -44,9 +51,8 @@ bool result = tfa.ValidateTwoFactorPIN(key, txtCode.Text)
 
 Now runs on .Net 6.0.  
 Technically the QR Coder library we rely on still does not fully support .Net 6.0 so it is possible there will be other niggling issues, but for now all tests pass for .Net 6.0 on both Windows and Linux.
+--->
 
 ## Common Pitfalls
 
-* Old documentation indicated specifying width and height for the QR code, but changes in QR generation now uses pixels per module (QR "pixel") so using a value too high will result in a huge image that can overrun memory allocations
 * Don't use the secret key and `ManualEntryKey` interchangeably. `ManualEntryKey` is used to enter into the authenticator app when scanning a QR code is impossible and is derived from the secret key ([discussion example](https://github.com/BrandonPotter/GoogleAuthenticator/issues/54))
-* *With versions prior to 3.0 only*, on linux, you need to ensure `libgdiplus` is installed if you want to generate QR Codes. See [https://github.com/codebude/QRCoder/issues/227](https://github.com/codebude/QRCoder/issues/227).

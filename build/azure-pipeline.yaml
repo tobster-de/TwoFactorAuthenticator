@@ -1,4 +1,4 @@
-name: BrandonPotter.GoogleAuthenticator - build and test
+name: tobster-de.TwoFactorAuthenticator - build and test
 trigger: [ master ]
 pr: [ master ]
 
@@ -23,23 +23,23 @@ jobs:
   steps:
 
   # There is a legacy project in the solution that dotnet won't build, so restoring and building individual projects
-  - script: dotnet restore ./Google.Authenticator/Google.Authenticator.csproj 
+  - script: dotnet restore ./TwoFactorAuthenticator/TwoFactorAuthenticator.csproj 
     displayName: dotnet restore package
 
-  - script: dotnet restore ./Google.Authenticator.Tests/Google.Authenticator.Tests.csproj --no-dependencies
+  - script: dotnet restore ./TwoFactorAuthenticator.Tests/TwoFactorAuthenticator.Tests.csproj --no-dependencies
     displayName: dotnet restore tests
 
-  - script: dotnet build ./Google.Authenticator/Google.Authenticator.csproj --configuration $(buildConfiguration) --no-restore
+  - script: dotnet build ./TwoFactorAuthenticator/TwoFactorAuthenticator.csproj --configuration $(buildConfiguration) --no-restore
     displayName: build package
 
-  - script: dotnet build ./Google.Authenticator.Tests/Google.Authenticator.Tests.csproj --configuration $(buildConfiguration) --no-restore --no-dependencies
+  - script: dotnet build ./TwoFactorAuthenticator.Tests/TwoFactorAuthenticator.Tests.csproj --configuration $(buildConfiguration) --no-restore --no-dependencies
     displayName: build tests
 
   - task: DotNetCoreCLI@2
     displayName: test
     inputs:
       command: test
-      projects: './Google.Authenticator.Tests/Google.Authenticator.Tests.csproj'
+      projects: './TwoFactorAuthenticator.Tests/TwoFactorAuthenticator.Tests.csproj'
       arguments: '--configuration $(buildConfiguration)'
 
 - job: Pack
@@ -51,10 +51,10 @@ jobs:
 
   steps:
   # This creates the Nuget package only if the change was from "master". It also supports publishing from a "develop" branch, which is not currently used in this project
-  - script: dotnet build ./Google.Authenticator/Google.Authenticator.csproj --configuration $(buildConfiguration)
+  - script: dotnet build ./TwoFactorAuthenticator/TwoFactorAuthenticator.csproj --configuration $(buildConfiguration)
     displayName: build package
 
-  - script: dotnet pack ./Google.Authenticator/Google.Authenticator.csproj --configuration $(buildConfiguration) --no-build --output %Build_ArtifactStagingDirectory%
+  - script: dotnet pack ./TwoFactorAuthenticator/TwoFactorAuthenticator.csproj --configuration $(buildConfiguration) --no-build --output %Build_ArtifactStagingDirectory%
     displayName: pack
 
   - task: PublishBuildArtifacts@1
