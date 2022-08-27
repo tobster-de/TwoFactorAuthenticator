@@ -1,21 +1,20 @@
 ﻿
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net462</TargetFrameworks>
-    <Product>Google Authenticator Two-Factor</Product>
-    <Title>Google Authenticator Two-Factor Authentication Library</Title>
-    <Description>Google Authenticator Two-Factor Authentication Library (Not officially affiliated with Google.)</Description>
-    <Authors>Brandon Potter</Authors>
-    <Company>Brandon Potter</Company>
-    <Version>3.0.0</Version>
+    <TargetFrameworks>netstandard2.0;net472</TargetFrameworks>
+    <Product>Two-Factor Authenticator</Product>
+    <Title>Two-Factor Authentication Library</Title>
+    <Description>Two-Factor authentication library for use with diverse authentication apps.</Description>
+    <Authors>Brandon Potter,Tobias Kolb</Authors>
+    <Company>Open source community</Company>
+    <Version>1.0.0</Version>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/BrandonPotter/GoogleAuthenticator</PackageProjectUrl>
-    <PackageId>GoogleAuthenticator</PackageId>
+    <PackageId>TwoFactorAuthenticator</PackageId>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="QRCoder" Version="1.4.3" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
     <None Include="..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
@@ -44,6 +43,6 @@
       $(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb
     </AllowedOutputExtensionsInPackageBuildOutputFolder>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <AssemblyVersion>3.0.0.0</AssemblyVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
   </PropertyGroup>
 </Project>

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TwoFactorAuthenticator {
+namespace TwoFactorAuthenticator.QrCoder {
     using System;
     
     
@@ -38,7 +38,7 @@ namespace TwoFactorAuthenticator {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TwoFactorAuthenticator.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TwoFactorAuthenticator.QrCoder.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -60,29 +60,20 @@ namespace TwoFactorAuthenticator {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Character is not a Base32 character..
+        ///   Looks up a localized string similar to There was a problem generating a QR code. The value of {0} should be set to a value of 10 or less for optimal results..
         /// </summary>
-        internal static string Base32Encoding_CharToValue_CharacterInvalid {
+        internal static string QrCoderSetupCodeGenerator_GenerateQrCodeImageData_QrException_PixelsPerModule {
             get {
-                return ResourceManager.GetString("Base32Encoding_CharToValue_CharacterInvalid", resourceCulture);
+                return ResourceManager.GetString("QrCoderSetupCodeGenerator_GenerateQrCodeImageData_QrException_PixelsPerModule", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Byte is not a value Base32 value..
+        ///   Looks up a localized string similar to Consider the value of {0} be set to a value of 10 or less for optimal results and to avoid GDI exceptions..
         /// </summary>
-        internal static string Base32Encoding_ValueToChar_ByteValueInvalid {
+        internal static string QrCoderSetupCodeGenerator_PixelsPerModule_Value {
             get {
-                return ResourceManager.GetString("Base32Encoding_ValueToChar_ByteValueInvalid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Account title is null..
-        /// </summary>
-        internal static string TwoFactorAuthenticator_GenerateSetupCode_ArgumentException_AccountTitle {
-            get {
-                return ResourceManager.GetString("TwoFactorAuthenticator_GenerateSetupCode_ArgumentException_AccountTitle", resourceCulture);
+                return ResourceManager.GetString("QrCoderSetupCodeGenerator_PixelsPerModule_Value", resourceCulture);
             }
         }
     }

@@ -1,5 +1,4 @@
-﻿using QRCoder;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -83,40 +82,12 @@ namespace TwoFactorAuthenticator
                                       // for backwards compatibility
                                       : $"otpauth://totp/{encodedIssuer}:{accountTitleNoSpaces}?secret={secret}&issuer={encodedIssuer}";
 
-            return new SetupCode(
-                accountTitleNoSpaces,
-                secret,
-                generateQrCode ? GenerateQrCodeUrl(qrPixelsPerModule, provisionUrl) : "");
-        }
-
-        private static string GenerateQrCodeUrl(int qrPixelsPerModule, string provisionUrl)
-        {
-            string qrCodeUrl;
-            try
-            {
-                using (QRCodeGenerator qrGenerator = new QRCodeGenerator())
-                using (QRCodeData qrCodeData = qrGenerator.CreateQrCode(provisionUrl, QRCodeGenerator.ECCLevel.Q))
-                using (PngByteQRCode qrCode = new PngByteQRCode(qrCodeData))
-                {
-                    byte[] qrCodeImage = qrCode.GetGraphic(qrPixelsPerModule);
-                    qrCodeUrl = $"data:image/png;base64,{Convert.ToBase64String(qrCodeImage)}";
-                }
-            }
-            catch (System.Runtime.InteropServices.ExternalException e)
-            {
-                if (e.Message.Contains("GDI+") && qrPixelsPerModule > 10)
-                {
-                    throw new QRException(
-                        string.Format(
-                            Resources.TwoFactorAuthenticator_GenerateQrCodeUrl_QRException_PixelsPerModule,
-                            nameof(qrPixelsPerModule)),
-                        e);
-                }
-
-                throw;
-            }
-
-            return qrCodeUrl;
+            return new SetupCode
+                   {
+                       Account = accountTitleNoSpaces,
+                       ManualEntryKey = secret,
+                       ProvisionUrl = provisionUrl
+                   };
         }
 
         private static string RemoveWhitespace(string str) 

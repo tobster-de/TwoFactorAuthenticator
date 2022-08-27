@@ -26,6 +26,7 @@
     <PackageReference Include="ZXing.Net.Bindings.Magick" Version="0.16.9" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TwoFactorAuthenticator.QrCoder\TwoFactorAuthenticator.QrCoder.csproj" />
     <ProjectReference Include="..\TwoFactorAuthenticator\TwoFactorAuthenticator.csproj" />
   </ItemGroup>
 </Project>

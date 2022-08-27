@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using TwoFactorAuthenticator.QrCoder;
 
 namespace TwoFactorAuthenticator.WinTest
 {
@@ -28,11 +22,15 @@ namespace TwoFactorAuthenticator.WinTest
         private void btnSetup_Click(object sender, EventArgs e)
         {
             TwoFactorAuthenticator tfA = new TwoFactorAuthenticator();
-            var setupCode = tfA.GenerateSetupCode(this.txtAccountTitle.Text, this.txtAccountTitle.Text, this.txtSecretKey.Text, false, 3);
+            QrCoderSetupCodeGenerator qrscg = new QrCoderSetupCodeGenerator();
+            
+            SetupCode setupCode = tfA.GenerateSetupCode(this.txtAccountTitle.Text, this.txtAccountTitle.Text, this.txtSecretKey.Text, false, 3);
 
             //WebClient wc = new WebClient();
-            using (MemoryStream ms = new MemoryStream(Convert.FromBase64String(setupCode.QrCodeSetupImageUrl.Replace("data:image/png;base64,", ""))))
+            using (MemoryStream ms = new MemoryStream(setupCode.GetQrCodeImageData(qrscg)))
+            {
                 this.pbQR.Image = Image.FromStream(ms);
+            }
 
             this.txtSetupCode.Text = "Account: " + setupCode.Account + System.Environment.NewLine +
                 "Secret Key: " + this.txtSecretKey.Text + System.Environment.NewLine +

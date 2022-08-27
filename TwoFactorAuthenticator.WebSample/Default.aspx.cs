@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using TwoFactorAuthenticator.QrCoder;
 
 namespace TwoFactorAuthenticator.WebSample
 {
@@ -19,9 +20,10 @@ namespace TwoFactorAuthenticator.WebSample
             this.lblSecretKey.Text = Request.QueryString["key"];
 
             TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
-            var setupInfo = tfa.GenerateSetupCode("我 & You", "user@example.com", Request.QueryString["key"], false, 10);
-
-            string qrCodeImageUrl = setupInfo.QrCodeSetupImageUrl;
+            QrCoderSetupCodeGenerator qrscg = new QrCoderSetupCodeGenerator();
+            
+            SetupCode setupInfo = tfa.GenerateSetupCode("我 & You", "user@example.com", Request.QueryString["key"], false, 10);
+            string qrCodeImageUrl = setupInfo.GenerateQrCodeUrl(qrscg);
             string manualEntrySetupCode = setupInfo.ManualEntryKey;
 
             this.imgQrCode.ImageUrl = qrCodeImageUrl;

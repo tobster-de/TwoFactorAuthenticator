@@ -1,10 +1,9 @@
-﻿using Xunit;
-using Shouldly;
-using System.Diagnostics;
-using System;
-using ZXing;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using Xunit;
+using Shouldly;
+using TwoFactorAuthenticator.QrCoder;
+using ZXing;
 
 namespace TwoFactorAuthenticator.Tests
 {
@@ -16,29 +15,30 @@ namespace TwoFactorAuthenticator.Tests
         [InlineData("个", "otpauth://totp/%E4%B8%AA:a%40b.com?secret=ONSWG4TFOQ&issuer=%E4%B8%AA")]
         public void CanGenerateQRCode(string issuer, string expectedUrl)
         {
-            var subject = new TwoFactorAuthenticator();
-            var setupCodeInfo = subject.GenerateSetupCode(
+            var authenticator = new TwoFactorAuthenticator();
+            var setupCodeInfo = authenticator.GenerateSetupCode(
                 issuer,
                 "a@b.com",
                 "secret", 
                 false, 
                 2);
 
-            var actualUrl = ExtractUrlFromQRImage(setupCodeInfo.QrCodeSetupImageUrl);
+            var subject = new QrCoderSetupCodeGenerator();
+            byte[] imageData = subject.GetQrCodeImageData(setupCodeInfo.ProvisionUrl);
+            string actualUrl = ExtractUrlFromQRImage(imageData);
 
+            setupCodeInfo.ProvisionUrl.ShouldBe(expectedUrl);
             actualUrl.ShouldBe(expectedUrl);
         }
 
-        private static string ExtractUrlFromQRImage(string qrCodeSetupImageUrl)
+        private static string ExtractUrlFromQRImage(byte[] imageData)
         {
-            var headerLength = "data:image/png;base64,".Length;
-            var rawImageData = qrCodeSetupImageUrl.Substring(headerLength, qrCodeSetupImageUrl.Length - headerLength);
-            var imageData = Convert.FromBase64String(rawImageData);
-
+            // var headerLength = "data:image/png;base64,".Length;
+            // var rawImageData = qrCodeSetupImageUrl.Substring(headerLength, qrCodeSetupImageUrl.Length - headerLength);
+            // var imageData = Convert.FromBase64String(rawImageData);
+        
             var reader = new BarcodeReaderGeneric();
-            reader.Options.PossibleFormats = new List<BarcodeFormat> {
-                BarcodeFormat.QR_CODE
-            };
+            reader.Options.PossibleFormats = new List<BarcodeFormat> { BarcodeFormat.QR_CODE };
             var image = new ImageMagick.MagickImage(imageData);
             var wrappedImage = new ZXing.Magick.MagickImageLuminanceSource(image);
             return reader.Decode(wrappedImage).Text;

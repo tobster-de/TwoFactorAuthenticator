@@ -2,19 +2,33 @@
 {
     public class SetupCode
     {
+        /// <summary>
+        /// Identifiable account name
+        /// </summary>
         public string Account { get; internal set; }
+        
+        /// <summary>
+        /// Generated setup key for manual entry into mobile application.
+        /// </summary>
         public string ManualEntryKey { get; internal set; }
 
         /// <summary>
-        /// Base64-encoded PNG image
+        /// Setup URL in standardized format
         /// </summary>
-        public string QrCodeSetupImageUrl { get; internal set; }
+        public string ProvisionUrl { get; internal set; }
+        
+        /// <summary>
+        /// Create a URL that contains image data of the setup QR code.
+        /// </summary>
+        /// <param name="generator">The code generator instance that creates the QR code URL.</param>
+        public string GenerateQrCodeUrl(ISetupQrCodeGenerator generator)
+            => generator.GenerateQrCodeUrl(this.ProvisionUrl);
 
-        public SetupCode(string account, string manualEntryKey, string qrCodeSetupImageUrl)
-        {
-            this.Account = account;
-            this.ManualEntryKey = manualEntryKey;
-            this.QrCodeSetupImageUrl = qrCodeSetupImageUrl;
-        }
+        /// <summary>
+        /// Returns the image data of the setup QR code.
+        /// </summary>
+        /// <param name="generator">The code generator instance that creates the QR code image data.</param>
+        public byte[] GetQrCodeImageData(ISetupQrCodeGenerator generator)
+            => generator.GetQrCodeImageData(this.ProvisionUrl);
     }
 }

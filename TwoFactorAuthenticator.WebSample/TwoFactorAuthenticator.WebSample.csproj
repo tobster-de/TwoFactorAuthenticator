@@ -90,6 +90,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TwoFactorAuthenticator.QrCoder\TwoFactorAuthenticator.QrCoder.csproj">
+      <Project>{ce91ebfb-bc47-42d5-9538-38dcf5c0be12}</Project>
+      <Name>TwoFactorAuthenticator.QrCoder</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TwoFactorAuthenticator\TwoFactorAuthenticator.csproj">
       <Project>{3d92de47-0ab8-466f-9083-af65d865e4be}</Project>
       <Name>TwoFactorAuthenticator</Name>

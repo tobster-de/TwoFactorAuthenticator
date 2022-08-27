@@ -9,13 +9,14 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TwoFactorAuthenticator.WinTest</RootNamespace>
     <AssemblyName>TwoFactorAuthenticator.WinTest</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
     <TargetFrameworkProfile />
+    <Prefer32Bit>false</Prefer32Bit>    
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -84,6 +85,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TwoFactorAuthenticator.QrCoder\TwoFactorAuthenticator.QrCoder.csproj">
+      <Project>{ce91ebfb-bc47-42d5-9538-38dcf5c0be12}</Project>
+      <Name>TwoFactorAuthenticator.QrCoder</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TwoFactorAuthenticator\TwoFactorAuthenticator.csproj">
       <Project>{3d92de47-0ab8-466f-9083-af65d865e4be}</Project>
       <Name>TwoFactorAuthenticator</Name>

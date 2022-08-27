@@ -18,13 +18,10 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="TwoFactorAuthenticator_GenerateSetupCode_ArgumentException_AccountTitle" xml:space="preserve">
-        <value>Account title is null.</value>
+    <data name="QrCoderSetupCodeGenerator_GenerateQrCodeImageData_QrException_PixelsPerModule" xml:space="preserve">
+        <value>There was a problem generating a QR code. The value of {0} should be set to a value of 10 or less for optimal results.</value>
     </data>
-    <data name="Base32Encoding_CharToValue_CharacterInvalid" xml:space="preserve">
-        <value>Character is not a Base32 character.</value>
-    </data>
-    <data name="Base32Encoding_ValueToChar_ByteValueInvalid" xml:space="preserve">
-        <value>Byte is not a value Base32 value.</value>
+    <data name="QrCoderSetupCodeGenerator_PixelsPerModule_Value" xml:space="preserve">
+        <value>Consider the value of {0} be set to a value of 10 or less for optimal results and to avoid GDI exceptions.</value>
     </data>
 </root>
