@@ -15,7 +15,8 @@ namespace TwoFactorAuthenticator.WinTest
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.txtAccountTitle.Text = "QRTestAccount";
+            this.txtIssuer.Text = "Example Org";
+            this.txtAccountTitle.Text = "test@account.com";
             this.txtSecretKey.Text = "f68f1fe894d548a1bbc66165c46e61eb"; //Guid.NewGuid().ToString().Replace("-", "");
         }
 
@@ -24,7 +25,7 @@ namespace TwoFactorAuthenticator.WinTest
             TwoFactorAuthenticator tfA = new TwoFactorAuthenticator();
             QrCoderSetupCodeGenerator qrscg = new QrCoderSetupCodeGenerator();
             
-            SetupCode setupCode = tfA.GenerateSetupCode(this.txtAccountTitle.Text, this.txtAccountTitle.Text, this.txtSecretKey.Text, false, 3);
+            SetupCode setupCode = tfA.GenerateSetupCode(this.txtIssuer.Text, this.txtAccountTitle.Text, this.txtSecretKey.Text, false);
 
             //WebClient wc = new WebClient();
             using (MemoryStream ms = new MemoryStream(setupCode.GetQrCodeImageData(qrscg)))

@@ -41,12 +41,14 @@
             this.btnTest = new System.Windows.Forms.Button();
             this.txtCurrentCodes = new System.Windows.Forms.TextBox();
             this.btnDebugTest = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtIssuer = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbQR)).BeginInit();
             this.SuspendLayout();
             // 
             // txtAccountTitle
             // 
-            this.txtAccountTitle.Location = new System.Drawing.Point(92, 15);
+            this.txtAccountTitle.Location = new System.Drawing.Point(91, 45);
             this.txtAccountTitle.Name = "txtAccountTitle";
             this.txtAccountTitle.Size = new System.Drawing.Size(155, 21);
             this.txtAccountTitle.TabIndex = 0;
@@ -54,7 +56,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 18);
+            this.label1.Location = new System.Drawing.Point(12, 48);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(73, 13);
             this.label1.TabIndex = 1;
@@ -63,23 +65,23 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(24, 44);
+            this.label2.Location = new System.Drawing.Point(43, 74);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(63, 13);
+            this.label2.Size = new System.Drawing.Size(42, 13);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Secret Key:";
+            this.label2.Text = "Secret:";
             // 
             // txtSecretKey
             // 
-            this.txtSecretKey.Location = new System.Drawing.Point(92, 41);
+            this.txtSecretKey.Location = new System.Drawing.Point(91, 71);
             this.txtSecretKey.Name = "txtSecretKey";
             this.txtSecretKey.Size = new System.Drawing.Size(155, 21);
             this.txtSecretKey.TabIndex = 2;
             // 
             // pbQR
             // 
-            this.pbQR.BackColor = System.Drawing.Color.White;
-            this.pbQR.Location = new System.Drawing.Point(34, 67);
+            this.pbQR.BackColor = System.Drawing.Color.Transparent;
+            this.pbQR.Location = new System.Drawing.Point(27, 117);
             this.pbQR.Name = "pbQR";
             this.pbQR.Size = new System.Drawing.Size(231, 223);
             this.pbQR.TabIndex = 4;
@@ -160,11 +162,29 @@
             this.btnDebugTest.UseVisualStyleBackColor = true;
             this.btnDebugTest.Click += new System.EventHandler(this.btnDebugTest_Click);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(44, 21);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(41, 13);
+            this.label4.TabIndex = 14;
+            this.label4.Text = "Issuer:";
+            // 
+            // txtIssuer
+            // 
+            this.txtIssuer.Location = new System.Drawing.Point(91, 18);
+            this.txtIssuer.Name = "txtIssuer";
+            this.txtIssuer.Size = new System.Drawing.Size(155, 21);
+            this.txtIssuer.TabIndex = 13;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(607, 408);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.txtIssuer);
             this.Controls.Add(this.btnDebugTest);
             this.Controls.Add(this.txtCurrentCodes);
             this.Controls.Add(this.btnTest);
@@ -180,13 +200,15 @@
             this.Controls.Add(this.txtAccountTitle);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "Form1";
-            this.Text = "Google Authenticator Test App";
+            this.Text = "Authenticator Test App";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbQR)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
+
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtIssuer;
 
         #endregion
 
