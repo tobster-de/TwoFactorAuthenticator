@@ -5,16 +5,16 @@ from [Microsoft](https://play.google.com/store/apps/details?id=com.azure.authent
 [Authy](https://play.google.com/store/apps/details?id=com.authy.authy) 
 or [LastPass](https://play.google.com/store/apps/details?id=com.lastpass.authenticator).
 
-<!---
-[![Build Status](https://dev.azure.com/brandon-potter/GoogleAuthenticator/_apis/build/status/BrandonPotter.GoogleAuthenticator?branchName=master)](https://dev.azure.com/brandon-potter/GoogleAuthenticator/_build/latest?definitionId=1&branchName=master)
-[![NuGet Status](https://buildstats.info/nuget/GoogleAuthenticator)](https://www.nuget.org/packages/GoogleAuthenticator/)
+[![Build Status](https://dev.azure.com/tkolb80/TwoFactorAuthenticator/_apis/build/status/tkolb80.TwoFactorAuthenticator?branchName=master)](https://dev.azure.com/tkolb80/TwoFactorAuthenticator/_build/latest?definitionId=1&branchName=master)
+[![NuGet Status](https://buildstats.info/nuget/TwoFactorAuthenticator)](https://www.nuget.org/packages/TwoFactorAuthenticator/)
 
-[`Install-Package GoogleAuthenticator`](https://www.nuget.org/packages/GoogleAuthenticator)
---->
+[`Install-Package TwoFactorAuthenticator`](https://www.nuget.org/packages/TwoFactorAuthenticator)
 
 ## Usage
 
-*Additional examples at [Google.Authenticator.WinTest](https://github.com/BrandonPotter/GoogleAuthenticator/tree/master/Google.Authenticator.WinTest) and [Google.Authenticator.WebSample](https://github.com/BrandonPotter/GoogleAuthenticator/tree/master/Google.Authenticator.WebSample)*
+*Also see additional example projects at 
+[TwoFactorAuthenticator.WinTest](https://github.com/tobster-de/TwoFactorAuthenticator/tree/master/TwoFactorAuthenticator.WinTest) 
+and [TwoFactorAuthenticator.WebSample](https://github.com/tobster-de/TwoFactorAuthenticator/tree/master/TwoFactorAuthenticator.WebSample)*
 
 `key` should be stored by your application for future authentication and shouldn't be regenerated for each request. The process of storing the private key is outside the scope of this library and is the responsibility of the application.
 
