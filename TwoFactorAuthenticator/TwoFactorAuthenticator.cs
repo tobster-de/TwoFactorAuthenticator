@@ -39,13 +39,13 @@ namespace TwoFactorAuthenticator
         /// <param name="accountTitleNoSpaces">Account Title (no spaces)</param>
         /// <param name="accountSecretKey">Account Secret Key</param>
         /// <param name="secretIsBase32">Flag saying if accountSecretKey is in Base32 format or original secret</param>
-        /// <param name="qrPixelsPerModule">Number of pixels per QR Module (2 pixels give ~ 100x100px QRCode,
-        /// should be 10 or less)</param>
         /// <returns>SetupCode object</returns>
-        public SetupCode GenerateSetupCode(string issuer, string accountTitleNoSpaces, string accountSecretKey,
-                                           bool secretIsBase32, int qrPixelsPerModule = 3) =>
-            this.GenerateSetupCode(issuer, accountTitleNoSpaces, ConvertSecretToBytes(accountSecretKey, secretIsBase32),
-                                   qrPixelsPerModule);
+        public SetupCode GenerateSetupCode(
+            string issuer, 
+            string accountTitleNoSpaces, 
+            string accountSecretKey,
+            bool secretIsBase32 = false)
+            => this.GenerateSetupCode(issuer, accountTitleNoSpaces, ConvertSecretToBytes(accountSecretKey, secretIsBase32));
 
         /// <summary>
         /// Generate a setup code for a Authenticator user to scan
@@ -54,15 +54,11 @@ namespace TwoFactorAuthenticator
         /// recommended https://github.com/google/google-authenticator/wiki/Key-Uri-Format </param>
         /// <param name="accountTitleNoSpaces">Account Title (no spaces)</param>
         /// <param name="accountSecretKey">Account Secret Key as byte[]</param>
-        /// <param name="qrPixelsPerModule">Number of pixels per QR Module
-        /// (2 = ~120x120px QRCode, should be 10 or less)</param>
-        /// <param name="generateQrCode"></param>
         /// <returns>SetupCode object</returns>
-        public SetupCode GenerateSetupCode(string issuer,
-                                           string accountTitleNoSpaces,
-                                           byte[] accountSecretKey,
-                                           int qrPixelsPerModule = 3,
-                                           bool generateQrCode = true)
+        public SetupCode GenerateSetupCode(
+            string issuer,
+            string accountTitleNoSpaces,
+            byte[] accountSecretKey)
         {
             if (string.IsNullOrWhiteSpace(accountTitleNoSpaces))
             {
@@ -90,7 +86,7 @@ namespace TwoFactorAuthenticator
                    };
         }
 
-        private static string RemoveWhitespace(string str) 
+        private static string RemoveWhitespace(string str)
             => new string(str.Where(c => !char.IsWhiteSpace(c)).ToArray());
 
         private static string UrlEncode(string value) => Uri.EscapeDataString(value);
@@ -104,8 +100,8 @@ namespace TwoFactorAuthenticator
         /// <param name="secretIsBase32">Flag saying if accountSecretKey is in Base32 format or original secret</param>
         /// <returns>A 'PIN' that is valid for the specified time interval</returns>
         public string GeneratePINAtInterval(
-            string accountSecretKey, 
-            long counter, 
+            string accountSecretKey,
+            long counter,
             int digits = 6,
             bool secretIsBase32 = false)
             => this.GeneratePINAtInterval(ConvertSecretToBytes(accountSecretKey, secretIsBase32), counter, digits);
@@ -117,7 +113,7 @@ namespace TwoFactorAuthenticator
         /// <param name="counter">The number of 30-second (by default) intervals since the unix epoch</param>
         /// <param name="digits">The desired length of the returned PIN</param>
         /// <returns>A 'PIN' that is valid for the specified time interval</returns>
-        public string GeneratePINAtInterval(byte[] accountSecretKey, long counter, int digits = 6) 
+        public string GeneratePINAtInterval(byte[] accountSecretKey, long counter, int digits = 6)
             => this.GenerateHashedCode(accountSecretKey, counter, digits);
 
         private string GenerateHashedCode(byte[] key, long iterationNumber, int digits = 6)
@@ -142,7 +138,7 @@ namespace TwoFactorAuthenticator
             return password.ToString(new string('0', digits));
         }
 
-        private long GetCurrentCounter() 
+        private long GetCurrentCounter()
             => this.GetCurrentCounter(DateTime.UtcNow, Epoch, 30);
 
         private long GetCurrentCounter(DateTime now, DateTime epoch, int timeStep)
@@ -179,8 +175,8 @@ namespace TwoFactorAuthenticator
             TimeSpan timeTolerance,
             bool secretIsBase32 = false)
             => this.ValidateTwoFactorPIN(ConvertSecretToBytes(accountSecretKey, secretIsBase32),
-                                         twoFactorCodeFromClient,
-                                         timeTolerance);
+                twoFactorCodeFromClient,
+                timeTolerance);
 
         /// <summary>
         /// Given a PIN from a client, check if it is valid at the current time.
@@ -224,7 +220,7 @@ namespace TwoFactorAuthenticator
         /// <returns>A 6-digit PIN</returns>
         public string GetCurrentPIN(string accountSecretKey, DateTime now, bool secretIsBase32 = false)
             => this.GeneratePINAtInterval(accountSecretKey, this.GetCurrentCounter(now, Epoch, 30),
-                                          secretIsBase32: secretIsBase32);
+                secretIsBase32: secretIsBase32);
 
         /// <summary>
         /// Get the PIN for current time; the same code that a 2FA app would generate for the current time.

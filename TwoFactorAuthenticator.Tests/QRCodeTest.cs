@@ -16,14 +16,9 @@ namespace TwoFactorAuthenticator.Tests
         public void CanGenerateQRCode(string issuer, string expectedUrl)
         {
             var authenticator = new TwoFactorAuthenticator();
-            var setupCodeInfo = authenticator.GenerateSetupCode(
-                issuer,
-                "a@b.com",
-                "secret", 
-                false, 
-                2);
+            var setupCodeInfo = authenticator.GenerateSetupCode(issuer, "a@b.com", "secret");
 
-            var subject = new QrCoderSetupCodeGenerator();
+            var subject = new QrCoderSetupCodeGenerator { PixelsPerModule = 2 };
             byte[] imageData = subject.GetQrCodeImageData(setupCodeInfo.ProvisionUrl);
             string actualUrl = ExtractUrlFromQRImage(imageData);
 

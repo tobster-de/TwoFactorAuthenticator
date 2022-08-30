@@ -20,9 +20,9 @@ namespace TwoFactorAuthenticator.WebSample
             this.lblSecretKey.Text = Request.QueryString["key"];
 
             TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
-            QrCoderSetupCodeGenerator qrscg = new QrCoderSetupCodeGenerator();
+            QrCoderSetupCodeGenerator qrscg = new QrCoderSetupCodeGenerator { PixelsPerModule = 10 };
             
-            SetupCode setupInfo = tfa.GenerateSetupCode("我 & You", "user@example.com", Request.QueryString["key"], false, 10);
+            SetupCode setupInfo = tfa.GenerateSetupCode("我 & You", "user@example.com", Request.QueryString["key"], false);
             string qrCodeImageUrl = setupInfo.GenerateQrCodeUrl(qrscg);
             string manualEntrySetupCode = setupInfo.ManualEntryKey;
 

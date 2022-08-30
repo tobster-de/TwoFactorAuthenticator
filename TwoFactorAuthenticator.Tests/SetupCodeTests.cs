@@ -18,8 +18,8 @@ namespace TwoFactorAuthenticator.Tests
 
             var subject = new TwoFactorAuthenticator();
 
-            var setupCodeFromString = subject.GenerateSetupCode(issuer, accountName, secret, false);
-            var setupCodeFromByteArray = subject.GenerateSetupCode(issuer, accountName, secretAsByteArray, 3, false);
+            var setupCodeFromString = subject.GenerateSetupCode(issuer, accountName, secret);
+            var setupCodeFromByteArray = subject.GenerateSetupCode(issuer, accountName, secretAsByteArray);
             var setupCodeFromBase32 = subject.GenerateSetupCode(issuer, accountName, secretAsBase32, true);
 
             setupCodeFromString.ManualEntryKey.ShouldBe(expected);
