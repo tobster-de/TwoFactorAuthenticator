@@ -5,7 +5,7 @@ from [Microsoft](https://play.google.com/store/apps/details?id=com.azure.authent
 [Authy](https://play.google.com/store/apps/details?id=com.authy.authy) 
 or [LastPass](https://play.google.com/store/apps/details?id=com.lastpass.authenticator).
 
-[![Build Status](https://dev.azure.com/tkolb80/TwoFactorAuthenticator/_apis/build/status/tobster-de.TwoFactorAuthenticator?branchName=master)](https://dev.azure.com/tkolb80/TwoFactorAuthenticator/_build/latest?definitionId=2&branchName=master)
+[![Build Status](https://dev.azure.com/tkolb80/TwoFactorAuthenticator/_apis/build/status/TwoFactorAuthenticator?branchName=master)](https://dev.azure.com/tkolb80/TwoFactorAuthenticator/_build/latest?definitionId=2&branchName=master)
 [![NuGet Status](https://buildstats.info/nuget/TwoFactorAuthenticator)](https://www.nuget.org/packages/TwoFactorAuthenticator/)
 
 [`Install-Package TwoFactorAuthenticator`](https://www.nuget.org/packages/TwoFactorAuthenticator)
