@@ -1,4 +1,4 @@
-name: tobster-de.TwoFactorAuthenticator - build and test
+name: TwoFactorAuthenticator
 trigger: [ master ]
 pr: [ master ]
 
