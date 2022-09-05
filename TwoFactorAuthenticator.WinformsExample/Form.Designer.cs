@@ -1,4 +1,4 @@
-﻿namespace TwoFactorAuthenticator.WinTest
+﻿namespace TwoFactorAuthenticator.WinformsExample
 {
     partial class Form1
     {

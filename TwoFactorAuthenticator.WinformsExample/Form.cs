@@ -4,13 +4,13 @@ using System.IO;
 using System.Windows.Forms;
 using TwoFactorAuthenticator.QrCoder;
 
-namespace TwoFactorAuthenticator.WinTest
+namespace TwoFactorAuthenticator.WinformsExample
 {
     public partial class Form1 : Form
     {
         public Form1()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -27,7 +27,6 @@ namespace TwoFactorAuthenticator.WinTest
             
             SetupCode setupCode = tfA.GenerateSetupCode(this.txtIssuer.Text, this.txtAccountTitle.Text, this.txtSecretKey.Text, false);
 
-            //WebClient wc = new WebClient();
             using (MemoryStream ms = new MemoryStream(setupCode.GetQrCodeImageData(qrscg)))
             {
                 this.pbQR.Image = Image.FromStream(ms);

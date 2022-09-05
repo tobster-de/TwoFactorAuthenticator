@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0
 MinimumVisualStudioVersion = 15.0
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoFactorAuthenticator", "TwoFactorAuthenticator\TwoFactorAuthenticator.csproj", "{3D92DE47-0AB8-466F-9083-AF65D865E4BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoFactorAuthenticator.WinTest", "TwoFactorAuthenticator.WinTest\TwoFactorAuthenticator.WinTest.csproj", "{C2B44C17-B77B-4DA8-B924-96B28B50D198}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoFactorAuthenticator.WinformsExample", "TwoFactorAuthenticator.WinformsExample\TwoFactorAuthenticator.WinformsExample.csproj", "{C2B44C17-B77B-4DA8-B924-96B28B50D198}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoFactorAuthenticator.WebSample", "TwoFactorAuthenticator.WebSample\TwoFactorAuthenticator.WebSample.csproj", "{21A63F79-D85F-4FE7-AC74-5171FAC0DCBF}"
 EndProject
