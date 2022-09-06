@@ -1,7 +1,6 @@
 using Xunit;
 using Shouldly;
 using System.Text;
-using System.Net.NetworkInformation;
 
 namespace TwoFactorAuthenticator.Tests
 {
@@ -28,6 +27,3 @@ namespace TwoFactorAuthenticator.Tests
         }
     }
 }
-
-// private long GetCurrentCounter(DateTime now, DateTime epoch, int timeStep) =>
-            //(long) (now - epoch).TotalSeconds / timeStep;

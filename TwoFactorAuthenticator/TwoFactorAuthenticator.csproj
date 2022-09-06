@@ -17,6 +17,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
     <None Include="..\README.md" Pack="true" PackagePath="\" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="6.0.0" />
   </ItemGroup>
   
   <ItemGroup>
@@ -36,6 +37,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Reference Include="System.Security" Condition="'$(TargetFramework)' == 'net472'" />
   </ItemGroup>
 
   <PropertyGroup>
