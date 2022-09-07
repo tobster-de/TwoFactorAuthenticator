@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System;
+using TwoFactorAuthenticator.Security;
 
 namespace TwoFactorAuthenticator.Tests
 {
@@ -15,7 +16,7 @@ namespace TwoFactorAuthenticator.Tests
 
         [Theory]
         [MemberData(nameof(GetPins))]
-        public void ValidateWorksWithDifferentSecretTypes(string pin, int irrelevantNumberToAvoidDuplicatePinsBeingRemoved)
+        public void ValidateWorksWithDifferentSecretTypes(PasswordToken pin, int irrelevantNumberToAvoidDuplicatePinsBeingRemoved)
         {
             // We can't directly test that the different overloads for GetCurrentPIN creates the same result,
             // as the time difference may may cause different PINS to be created.

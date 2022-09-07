@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using TwoFactorAuthenticator.QrCoder;
+using TwoFactorAuthenticator.Security;
 
 namespace TwoFactorAuthenticator.WinformsExample
 {
@@ -24,8 +25,9 @@ namespace TwoFactorAuthenticator.WinformsExample
         {
             TwoFactorAuthenticator tfA = new TwoFactorAuthenticator();
             QrCoderSetupCodeGenerator qrscg = new QrCoderSetupCodeGenerator();
-            
-            SetupCode setupCode = tfA.GenerateSetupCode(this.txtIssuer.Text, this.txtAccountTitle.Text, this.txtSecretKey.Text, false);
+
+            SetupCode setupCode = tfA.GenerateSetupCode(this.txtIssuer.Text, this.txtAccountTitle.Text,
+                this.txtSecretKey.Text, false);
 
             using (MemoryStream ms = new MemoryStream(setupCode.GetQrCodeImageData(qrscg)))
             {
@@ -33,26 +35,28 @@ namespace TwoFactorAuthenticator.WinformsExample
             }
 
             this.txtSetupCode.Text = "Account: " + setupCode.Account + System.Environment.NewLine +
-                "Secret Key: " + this.txtSecretKey.Text + System.Environment.NewLine +
-                "Encoded Key: " + setupCode.ManualEntryKey;
+                                     "Secret Key: " + this.txtSecretKey.Text + System.Environment.NewLine +
+                                     "Encoded Key: " + setupCode.ManualEntryKey;
         }
 
         private void btnTest_Click(object sender, EventArgs e)
         {
             TwoFactorAuthenticator tfA = new TwoFactorAuthenticator();
-            var result = tfA.ValidateTwoFactorPIN(txtSecretKey.Text, this.txtCode.Text);
+
+            PasswordToken token = PasswordToken.FromPassCode(int.Parse(this.txtCode.Text));
+            bool result = tfA.ValidateTwoFactorPIN(txtSecretKey.Text, token);
 
             MessageBox.Show(result ? "Validated!" : "Incorrect", "Result");
         }
 
         private void btnGetCurrentCode_Click(object sender, EventArgs e)
         {
-            this.txtCurrentCodes.Text = string.Join(System.Environment.NewLine, new TwoFactorAuthenticator().GetCurrentPINs(this.txtSecretKey.Text));
+            this.txtCurrentCodes.Text = string.Join(System.Environment.NewLine,
+                new TwoFactorAuthenticator().GetCurrentPINs(this.txtSecretKey.Text));
         }
 
         private void btnDebugTest_Click(object sender, EventArgs e)
         {
-
         }
     }
 }
