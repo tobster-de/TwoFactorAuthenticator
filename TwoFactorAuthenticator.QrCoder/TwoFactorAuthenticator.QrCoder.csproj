@@ -7,7 +7,7 @@
         <Description>Two-Factor authentication library - QR code generator.</Description>
         <Authors>Tobias Kolb</Authors>
         <Company>Open source community</Company>
-        <Version>1.0.1</Version>
+        <Version>1.1.0</Version>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/tobster-de/TwoFactorAuthenticator</PackageProjectUrl>
         <PackageId>TwoFactorAuthenticator.QrCoder</PackageId>
@@ -44,6 +44,6 @@
             $(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb
         </AllowedOutputExtensionsInPackageBuildOutputFolder>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        <AssemblyVersion>1.1.0.0</AssemblyVersion>
     </PropertyGroup>
 </Project>
