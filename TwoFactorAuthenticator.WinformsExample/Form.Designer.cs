@@ -37,12 +37,12 @@
             this.btnGetCurrentCode = new System.Windows.Forms.Button();
             this.txtSetupCode = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtCode = new System.Windows.Forms.TextBox();
             this.btnTest = new System.Windows.Forms.Button();
             this.txtCurrentCodes = new System.Windows.Forms.TextBox();
             this.btnDebugTest = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.txtIssuer = new System.Windows.Forms.TextBox();
+            this.factorControl = new TwoFactorAuthenticator.WinForms.FactorControl();
             ((System.ComponentModel.ISupportInitialize)(this.pbQR)).BeginInit();
             this.SuspendLayout();
             // 
@@ -125,13 +125,6 @@
             this.label3.TabIndex = 8;
             this.label3.Text = "Test Code:";
             // 
-            // txtCode
-            // 
-            this.txtCode.Location = new System.Drawing.Point(396, 179);
-            this.txtCode.Name = "txtCode";
-            this.txtCode.Size = new System.Drawing.Size(124, 21);
-            this.txtCode.TabIndex = 9;
-            // 
             // btnTest
             // 
             this.btnTest.Location = new System.Drawing.Point(396, 217);
@@ -178,17 +171,33 @@
             this.txtIssuer.Size = new System.Drawing.Size(155, 21);
             this.txtIssuer.TabIndex = 13;
             // 
+            // factorControl
+            // 
+            this.factorControl.AllowCopyToClipboard = false;
+            this.factorControl.BorderColor = System.Drawing.Color.Gray;
+            this.factorControl.BoxGap = 5;
+            this.factorControl.BoxSize = new System.Drawing.Size(25, 25);
+            this.factorControl.CornerRadius = 5;
+            this.factorControl.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
+            this.factorControl.Location = new System.Drawing.Point(396, 178);
+            this.factorControl.Margin = new System.Windows.Forms.Padding(0);
+            this.factorControl.Name = "factorControl";
+            this.factorControl.PasteFromClipboardMode = TwoFactorAuthenticator.WinForms.PasteFromClipboardMode.PasteFullToken;
+            this.factorControl.Size = new System.Drawing.Size(176, 26);
+            this.factorControl.TabIndex = 15;
+            this.factorControl.TokenLength = 6;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(607, 408);
+            this.Controls.Add(this.factorControl);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtIssuer);
             this.Controls.Add(this.btnDebugTest);
             this.Controls.Add(this.txtCurrentCodes);
             this.Controls.Add(this.btnTest);
-            this.Controls.Add(this.txtCode);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtSetupCode);
             this.Controls.Add(this.btnGetCurrentCode);
@@ -205,6 +214,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbQR)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         private System.Windows.Forms.Label label4;
@@ -221,10 +231,10 @@
         private System.Windows.Forms.Button btnGetCurrentCode;
         private System.Windows.Forms.TextBox txtSetupCode;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtCode;
         private System.Windows.Forms.Button btnTest;
         private System.Windows.Forms.TextBox txtCurrentCodes;
         private System.Windows.Forms.Button btnDebugTest;
+        private TwoFactorAuthenticator.WinForms.FactorControl factorControl;
     }
 }
 

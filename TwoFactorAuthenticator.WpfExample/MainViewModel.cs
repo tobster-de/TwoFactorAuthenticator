@@ -60,7 +60,7 @@ namespace WpfExample
 
         private void ExecuteGenerateCode()
         {
-            var tfA = new TwoFactorAuthenticator.TwoFactorAuthenticator();
+            var tfA = new TwoFactorAuthenticator.Authenticator();
             var qrscg = new QrCoderSetupCodeGenerator();
 
             try
@@ -93,7 +93,7 @@ namespace WpfExample
 
         private void ExecuteTestCommand()
         {
-            var tfA = new TwoFactorAuthenticator.TwoFactorAuthenticator();
+            var tfA = new TwoFactorAuthenticator.Authenticator();
             PasswordToken token = PasswordToken.FromPassCode(int.Parse(this.TestCode));
             bool result = tfA.ValidateTwoFactorPIN(this.Secret, token);
 
@@ -116,7 +116,7 @@ namespace WpfExample
         private void ExecuteGetCodesCommand()
         {
             this.CurrentCodes = string.Join(System.Environment.NewLine,
-                ToReadableText(new TwoFactorAuthenticator.TwoFactorAuthenticator().GetCurrentPINs(this.Secret)));
+                ToReadableText(new TwoFactorAuthenticator.Authenticator().GetCurrentPINs(this.Secret)));
         }
         
         private static IEnumerable<string> ToReadableText(IEnumerable<PasswordToken> currentPins)

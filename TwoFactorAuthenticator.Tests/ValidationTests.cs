@@ -21,7 +21,7 @@ namespace TwoFactorAuthenticator.Tests
             // We can't directly test that the different overloads for GetCurrentPIN creates the same result,
             // as the time difference may may cause different PINS to be created.
             // So instead we generate the PINs by each method and validate each one by each method.
-            var subject = new TwoFactorAuthenticator();
+            var subject = new Authenticator();
 
             subject.ValidateTwoFactorPIN(secret, pin, false);
             subject.ValidateTwoFactorPIN(secret, pin, TimeSpan.FromMinutes(irrelevantNumberToAvoidDuplicatePinsBeingRemoved), false);
@@ -33,7 +33,7 @@ namespace TwoFactorAuthenticator.Tests
 
         public static IEnumerable<object[]> GetPins()
         {
-            var subject = new TwoFactorAuthenticator();
+            var subject = new Authenticator();
 
             yield return new object[] { subject.GetCurrentPIN(secret), 2 };
             yield return new object[] { subject.GetCurrentPIN(secret, DateTime.UtcNow), 3 };

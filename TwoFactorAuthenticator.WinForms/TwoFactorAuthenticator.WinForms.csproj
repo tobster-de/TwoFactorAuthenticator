@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>net472;net5.0-windows</TargetFrameworks>
+        <Product>Two-Factor Authenticator</Product>
+        <Title>Two-Factor authentication QR code generation library</Title>
+        <Description>Two-Factor authentication library - Windows.Forms controls</Description>
+        <Authors>Tobias Kolb</Authors>
+        <Company>Open source community</Company>
+        <Version>1.1.0</Version>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/tobster-de/TwoFactorAuthenticator</PackageProjectUrl>
+        <PackageId>TwoFactorAuthenticator.WinForms</PackageId>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <UseWindowsForms>true</UseWindowsForms>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+        <None Include="README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\TwoFactorAuthenticator\TwoFactorAuthenticator.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Update="Resources.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="Resources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="System.Windows.Forms" Condition="'$(TargetFramework)' == 'net472'" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <AllowedOutputExtensionsInPackageBuildOutputFolder>
+            $(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb
+        </AllowedOutputExtensionsInPackageBuildOutputFolder>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    </PropertyGroup>
+</Project>

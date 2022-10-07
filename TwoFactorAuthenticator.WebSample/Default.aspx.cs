@@ -20,7 +20,7 @@ namespace TwoFactorAuthenticator.WebSample
 
             this.lblSecretKey.Text = Request.QueryString["key"];
 
-            TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
+            Authenticator tfa = new Authenticator();
             QrCoderSetupCodeGenerator qrscg = new QrCoderSetupCodeGenerator { PixelsPerModule = 10 };
             
             SetupCode setupInfo = tfa.GenerateSetupCode("我 & You", "user@example.com", Request.QueryString["key"], false);
@@ -33,7 +33,7 @@ namespace TwoFactorAuthenticator.WebSample
 
         protected void btnValidate_Click(object sender, EventArgs e)
         {
-            TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
+            Authenticator tfa = new Authenticator();
             PasswordToken token = PasswordToken.FromPassCode(int.Parse(this.txtCode.Text));
             bool result = tfa.ValidateTwoFactorPIN(Request.QueryString["key"], token);
 

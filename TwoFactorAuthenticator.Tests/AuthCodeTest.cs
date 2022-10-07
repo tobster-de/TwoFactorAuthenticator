@@ -13,7 +13,7 @@ namespace TwoFactorAuthenticator.Tests
             string secretKey = "PJWUMZKAUUFQKJBAMD6VGJ6RULFVW4ZH";
             PasswordToken expected = PasswordToken.FromPassCode(551508);
 
-            var tfa = new TwoFactorAuthenticator();
+            var tfa = new Authenticator();
 
             int currentTime = 1416643820;
 
@@ -30,7 +30,7 @@ namespace TwoFactorAuthenticator.Tests
             string secretKey = Base32Encoding.ToString(Encoding.UTF8.GetBytes("PJWUMZKAUUFQKJBAMD6VGJ6RULFVW4ZH"));
             PasswordToken expected = PasswordToken.FromPassCode(551508);
 
-            var tfa = new TwoFactorAuthenticator();
+            var tfa = new Authenticator();
 
             int currentTime = 1416643820;
 
