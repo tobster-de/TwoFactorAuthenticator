@@ -27,12 +27,14 @@ jobs:
   - script: |
       dotnet restore ./TwoFactorAuthenticator/TwoFactorAuthenticator.csproj 
       dotnet restore ./TwoFactorAuthenticator.QrCoder/TwoFactorAuthenticator.QrCoder.csproj --no-dependencies
+      dotnet restore ./TwoFactorAuthenticator.WinForms/TwoFactorAuthenticator.WinForms.csproj --no-dependencies
       dotnet restore ./TwoFactorAuthenticator.Tests/TwoFactorAuthenticator.Tests.csproj --no-dependencies
     displayName: restore packages
 
   - script: |
       dotnet build ./TwoFactorAuthenticator/TwoFactorAuthenticator.csproj --configuration $(buildConfiguration) --no-restore
       dotnet build ./TwoFactorAuthenticator.QrCoder/TwoFactorAuthenticator.QrCoder.csproj --configuration $(buildConfiguration) --no-restore
+      dotnet build ./TwoFactorAuthenticator.WinForms/TwoFactorAuthenticator.WinForms.csproj --configuration $(buildConfiguration) --no-restore
       dotnet build ./TwoFactorAuthenticator.Tests/TwoFactorAuthenticator.Tests.csproj --configuration $(buildConfiguration) --no-restore --no-dependencies
     displayName: build projects
 
@@ -55,11 +57,13 @@ jobs:
   - script: |
       dotnet build ./TwoFactorAuthenticator/TwoFactorAuthenticator.csproj --configuration $(buildConfiguration)
       dotnet build ./TwoFactorAuthenticator.QrCoder/TwoFactorAuthenticator.QrCoder.csproj --configuration $(buildConfiguration)
+      dotnet build ./TwoFactorAuthenticator.WinForms/TwoFactorAuthenticator.WinForms.csproj --configuration $(buildConfiguration)
     displayName: build packages
 
   - script: |
       dotnet pack ./TwoFactorAuthenticator/TwoFactorAuthenticator.csproj --configuration $(buildConfiguration) --no-build --output %Build_ArtifactStagingDirectory%
       dotnet pack ./TwoFactorAuthenticator.QrCoder/TwoFactorAuthenticator.QrCoder.csproj --configuration $(buildConfiguration) --no-build --output %Build_ArtifactStagingDirectory%
+      dotnet pack ./TwoFactorAuthenticator.WinForms/TwoFactorAuthenticator.WinForms.csproj --configuration $(buildConfiguration) --no-build --output %Build_ArtifactStagingDirectory%
     displayName: pack
 
   - task: PublishBuildArtifacts@1
