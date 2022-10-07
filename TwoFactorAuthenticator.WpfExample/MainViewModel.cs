@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -115,8 +116,18 @@ namespace WpfExample
         private void ExecuteGetCodesCommand()
         {
             this.CurrentCodes = string.Join(System.Environment.NewLine,
-                new TwoFactorAuthenticator.TwoFactorAuthenticator()
-                    .GetCurrentPINs(this.Secret));
+                ToReadableText(new TwoFactorAuthenticator.TwoFactorAuthenticator().GetCurrentPINs(this.Secret)));
+        }
+        
+        private static IEnumerable<string> ToReadableText(IEnumerable<PasswordToken> currentPins)
+        {
+            foreach (PasswordToken token in currentPins)
+            {
+                using (var unsafeToken = UnsafeToken.FromPasswordToken(token))
+                {
+                    yield return unsafeToken.ToString();
+                }
+            }
         }
     }
 }

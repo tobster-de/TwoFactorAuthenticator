@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 using TwoFactorAuthenticator.QrCoder;
 using TwoFactorAuthenticator.Security;
@@ -52,7 +54,18 @@ namespace TwoFactorAuthenticator.WinformsExample
         private void btnGetCurrentCode_Click(object sender, EventArgs e)
         {
             this.txtCurrentCodes.Text = string.Join(System.Environment.NewLine,
-                new TwoFactorAuthenticator().GetCurrentPINs(this.txtSecretKey.Text));
+                ToReadableText(new TwoFactorAuthenticator().GetCurrentPINs(this.txtSecretKey.Text)));
+        }
+
+        private static IEnumerable<string> ToReadableText(IEnumerable<PasswordToken> currentPins)
+        {
+            foreach (PasswordToken token in currentPins)
+            {
+                using (var unsafeToken = UnsafeToken.FromPasswordToken(token))
+                {
+                    yield return unsafeToken.ToString();
+                }
+            }
         }
 
         private void btnDebugTest_Click(object sender, EventArgs e)
