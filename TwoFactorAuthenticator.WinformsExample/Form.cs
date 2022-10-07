@@ -25,7 +25,7 @@ namespace TwoFactorAuthenticator.WinformsExample
 
         private void btnSetup_Click(object sender, EventArgs e)
         {
-            TwoFactorAuthenticator tfA = new TwoFactorAuthenticator();
+            Authenticator tfA = new Authenticator();
             QrCoderSetupCodeGenerator qrscg = new QrCoderSetupCodeGenerator();
 
             SetupCode setupCode = tfA.GenerateSetupCode(this.txtIssuer.Text, this.txtAccountTitle.Text,
@@ -43,9 +43,9 @@ namespace TwoFactorAuthenticator.WinformsExample
 
         private void btnTest_Click(object sender, EventArgs e)
         {
-            TwoFactorAuthenticator tfA = new TwoFactorAuthenticator();
+            Authenticator tfA = new Authenticator();
 
-            PasswordToken token = PasswordToken.FromPassCode(int.Parse(this.txtCode.Text));
+            PasswordToken token = factorControl.PasswordToken;
             bool result = tfA.ValidateTwoFactorPIN(txtSecretKey.Text, token);
 
             MessageBox.Show(result ? "Validated!" : "Incorrect", "Result");
@@ -54,7 +54,7 @@ namespace TwoFactorAuthenticator.WinformsExample
         private void btnGetCurrentCode_Click(object sender, EventArgs e)
         {
             this.txtCurrentCodes.Text = string.Join(System.Environment.NewLine,
-                ToReadableText(new TwoFactorAuthenticator().GetCurrentPINs(this.txtSecretKey.Text)));
+                ToReadableText(new Authenticator().GetCurrentPINs(this.txtSecretKey.Text)));
         }
 
         private static IEnumerable<string> ToReadableText(IEnumerable<PasswordToken> currentPins)

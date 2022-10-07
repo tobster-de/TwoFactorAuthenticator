@@ -11,7 +11,7 @@ namespace TwoFactorAuthenticator
     /// modified from
     /// https://github.com/brandonpotter/TwoFactorAuthenticator
     /// </summary>
-    public class TwoFactorAuthenticator
+    public class Authenticator
     {
         private static readonly DateTime Epoch =
             new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
@@ -22,14 +22,14 @@ namespace TwoFactorAuthenticator
         /// Create a new instance with disabled clock drift tolerance. The user will be forced
         /// to have the exact code for the time of validation. 
         /// </summary>
-        public TwoFactorAuthenticator() => this.ClockDriftTolerance = TimeSpan.FromSeconds(30);
+        public Authenticator() => this.ClockDriftTolerance = TimeSpan.FromSeconds(30);
 
         /// <summary>
         /// Create a new instance with clock drift tolerance set to provided timespan. The user will be allowed
         /// to have any code that matches valid codes within the time range before and after current time. 
         /// </summary>
         /// <param name="clockDriftTolerance">The clock is allowed to be off this time span.</param>
-        public TwoFactorAuthenticator(TimeSpan clockDriftTolerance) => this.ClockDriftTolerance = clockDriftTolerance;
+        public Authenticator(TimeSpan clockDriftTolerance) => this.ClockDriftTolerance = clockDriftTolerance;
 
         /// <summary>
         /// Generate a setup code for a Authenticator user to scan

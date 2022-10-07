@@ -16,7 +16,7 @@ namespace TwoFactorAuthenticator.Tests
             long counter = 54615912;
             PasswordToken expected = PasswordToken.FromPassCode(508826);
 
-            var subject = new TwoFactorAuthenticator();
+            var subject = new Authenticator();
 
             PasswordToken pinFromString = subject.GeneratePINAtInterval(secret, counter);
             PasswordToken pinFromBytes = subject.GeneratePINAtInterval(secretAsBytes, counter);

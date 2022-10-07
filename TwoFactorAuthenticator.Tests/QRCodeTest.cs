@@ -15,7 +15,7 @@ namespace TwoFactorAuthenticator.Tests
         [InlineData("个", "otpauth://totp/%E4%B8%AA:a%40b.com?secret=ONSWG4TFOQ&issuer=%E4%B8%AA")]
         public void CanGenerateQRCode(string issuer, string expectedUrl)
         {
-            var authenticator = new TwoFactorAuthenticator();
+            var authenticator = new Authenticator();
             var setupCodeInfo = authenticator.GenerateSetupCode(issuer, "a@b.com", "secret");
 
             var subject = new QrCoderSetupCodeGenerator { PixelsPerModule = 2 };

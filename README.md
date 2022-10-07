@@ -27,7 +27,7 @@ using TwoFactorAuthenticator.QrCoder;
 
 string key = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 10);
 
-TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
+Authenticator tfa = new Authenticator();
 QrCoderSetupCodeGenerator qrscg = new QrCoderSetupCodeGenerator { PixelsPerModule = 3 };
 
 SetupCode setupInfo = tfa.GenerateSetupCode("Test Two Factor", "user@example.com", key, false);
@@ -43,12 +43,21 @@ this.setupInfo.Text = "Account: " + setupCode.Account + System.Environment.NewLi
                       "Encoded Key: " + setupCode.ManualEntryKey;
 ```
 
+### Generation
+```csharp
+Authenticator tfa = new Authenticator();
+PasswordToken token = tfa.GetCurrentPIN(key);
+using (var unsafeToken = UnsafeToken.FromPasswordToken(token))
+{
+    string pin = unsafeToken.ToString();
+}
+```
+
 ### Verification
 ```csharp
-// verify
 string input = "123456";
 
-TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
+Authenticator tfa = new Authenticator();
 PasswordToken token = PasswordToken.FromPassCode(int.Parse(input));
 
 bool result = tfa.ValidateTwoFactorPIN(key, token);
@@ -58,7 +67,12 @@ bool result = tfa.ValidateTwoFactorPIN(key, token);
 
 ### 1.1.0
 
-- Breaking change: changed interface to use secured PasswordToken instead of primitive string
+- **Breaking changes**:
+  - ```TwoFactorAuthenticator``` should not be named like its namespace (created collision);
+  new name is just ```Authenticator```
+  - Changed interface to use secured ```PasswordToken``` instead of primitive string
+- Introduced ```UnsafeToken``` for generation / UI purposes
+- Introduced ```FactorControl``` for WinForms
 
 ### 1.0.1
 

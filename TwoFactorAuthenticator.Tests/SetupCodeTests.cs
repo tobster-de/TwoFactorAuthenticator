@@ -16,7 +16,7 @@ namespace TwoFactorAuthenticator.Tests
             var accountName = "TestAccount";
             var expected = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZA";
 
-            var subject = new TwoFactorAuthenticator();
+            var subject = new Authenticator();
 
             var setupCodeFromString = subject.GenerateSetupCode(issuer, accountName, secret);
             var setupCodeFromByteArray = subject.GenerateSetupCode(issuer, accountName, secretAsByteArray);

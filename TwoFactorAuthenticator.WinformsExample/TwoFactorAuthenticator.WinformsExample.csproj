@@ -16,7 +16,8 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
     <TargetFrameworkProfile />
-    <Prefer32Bit>false</Prefer32Bit>    
+    <Prefer32Bit>false</Prefer32Bit>
+    <RuntimeIdentifiers>win</RuntimeIdentifiers>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -88,6 +89,10 @@
     <ProjectReference Include="..\TwoFactorAuthenticator.QrCoder\TwoFactorAuthenticator.QrCoder.csproj">
       <Project>{ce91ebfb-bc47-42d5-9538-38dcf5c0be12}</Project>
       <Name>TwoFactorAuthenticator.QrCoder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TwoFactorAuthenticator.WinForms\TwoFactorAuthenticator.WinForms.csproj">
+      <Project>{030f3a5f-b1bf-41bd-a1c0-261441242b28}</Project>
+      <Name>TwoFactorAuthenticator.WinForms</Name>
     </ProjectReference>
     <ProjectReference Include="..\TwoFactorAuthenticator\TwoFactorAuthenticator.csproj">
       <Project>{3d92de47-0ab8-466f-9083-af65d865e4be}</Project>
