@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using TwoFactorAuthenticator;
 using TwoFactorAuthenticator.QrCoder;
+using TwoFactorAuthenticator.Security;
 
 namespace WpfExample
 {
@@ -92,7 +93,8 @@ namespace WpfExample
         private void ExecuteTestCommand()
         {
             var tfA = new TwoFactorAuthenticator.TwoFactorAuthenticator();
-            var result = tfA.ValidateTwoFactorPIN(this.Secret, this.TestCode);
+            PasswordToken token = PasswordToken.FromPassCode(int.Parse(this.TestCode));
+            bool result = tfA.ValidateTwoFactorPIN(this.Secret, token);
 
             MessageBox.Show(result ? "Validated!" : "Incorrect", "Result");
         }

@@ -7,7 +7,7 @@
     <Description>Two-Factor authentication library for use with diverse authentication apps.</Description>
     <Authors>Brandon Potter,Tobias Kolb</Authors>
     <Company>Open source community</Company>
-    <Version>1.0.1</Version>
+    <Version>1.1.0</Version>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/tobster-de/TwoFactorAuthenticator</PackageProjectUrl>
     <PackageId>TwoFactorAuthenticator</PackageId>
@@ -17,6 +17,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
     <None Include="..\README.md" Pack="true" PackagePath="\" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="6.0.0" />
   </ItemGroup>
   
   <ItemGroup>
@@ -37,12 +38,16 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
+  
+  <ItemGroup>
+    <Reference Include="System.Security" Condition="'$(TargetFramework)' == 'net472'" />
+  </ItemGroup>
 
   <PropertyGroup>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>
       $(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb
     </AllowedOutputExtensionsInPackageBuildOutputFolder>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
   </PropertyGroup>
 </Project>

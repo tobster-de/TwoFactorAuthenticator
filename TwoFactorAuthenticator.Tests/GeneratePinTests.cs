@@ -1,7 +1,7 @@
 using Xunit;
 using Shouldly;
 using System.Text;
-using System.Net.NetworkInformation;
+using TwoFactorAuthenticator.Security;
 
 namespace TwoFactorAuthenticator.Tests
 {
@@ -10,24 +10,21 @@ namespace TwoFactorAuthenticator.Tests
         [Fact]
         public void OverloadsReturnSamePIN()
         {
-            var secret = "JBSWY3DPEHPK3PXP";
-            var secretAsBytes = Encoding.UTF8.GetBytes(secret);
-            var secretAsBase32 = Base32Encoding.ToString(secretAsBytes);
+            string secret = "JBSWY3DPEHPK3PXP";
+            byte[] secretAsBytes = Encoding.UTF8.GetBytes(secret);
+            string secretAsBase32 = Base32Encoding.ToString(secretAsBytes);
             long counter = 54615912;
-            var expected = "508826";
+            PasswordToken expected = PasswordToken.FromPassCode(508826);
 
             var subject = new TwoFactorAuthenticator();
 
-            var pinFromString = subject.GeneratePINAtInterval(secret, counter);
-            var pinFromBytes = subject.GeneratePINAtInterval(secretAsBytes, counter);
-            var pinFromBase32 = subject.GeneratePINAtInterval(secretAsBase32, counter, secretIsBase32: true);
+            PasswordToken pinFromString = subject.GeneratePINAtInterval(secret, counter);
+            PasswordToken pinFromBytes = subject.GeneratePINAtInterval(secretAsBytes, counter);
+            PasswordToken pinFromBase32 = subject.GeneratePINAtInterval(secretAsBase32, counter, secretIsBase32: true);
 
-            pinFromString.ShouldBe(expected);
-            pinFromBytes.ShouldBe(expected);
-            pinFromBase32.ShouldBe(expected);
+            pinFromString.Validate(expected).ShouldBe(true);
+            pinFromBytes.Validate(expected).ShouldBe(true);
+            pinFromBase32.Validate(expected).ShouldBe(true);
         }
     }
 }
-
-// private long GetCurrentCounter(DateTime now, DateTime epoch, int timeStep) =>
-            //(long) (now - epoch).TotalSeconds / timeStep;

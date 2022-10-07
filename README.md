@@ -16,8 +16,11 @@ or [LastPass](https://play.google.com/store/apps/details?id=com.lastpass.authent
 [TwoFactorAuthenticator.WinTest](https://github.com/tobster-de/TwoFactorAuthenticator/tree/master/TwoFactorAuthenticator.WinTest) 
 and [TwoFactorAuthenticator.WebSample](https://github.com/tobster-de/TwoFactorAuthenticator/tree/master/TwoFactorAuthenticator.WebSample)*
 
-`key` should be stored by your application for future authentication and shouldn't be regenerated for each request. The process of storing the private key is outside the scope of this library and is the responsibility of the application.
+`key` should be stored by your application for future authentication and shouldn't be regenerated for 
+each request. The process of storing the private key is outside the scope of this library and is the 
+responsibility of the application.
 
+### Generate setup code
 ```csharp
 using TwoFactorAuthenticator;
 using TwoFactorAuthenticator.QrCoder;
@@ -30,23 +33,40 @@ QrCoderSetupCodeGenerator qrscg = new QrCoderSetupCodeGenerator { PixelsPerModul
 SetupCode setupInfo = tfa.GenerateSetupCode("Test Two Factor", "user@example.com", key, false);
 
 string qrCodeImageUrl = setupInfo.GenerateQrCodeUrl(qrscg);
-string manualEntrySetupCode = setupInfo.ManualEntryKey;
 
-imgQrCode.ImageUrl = qrCodeImageUrl;
-lblManualSetupCode.Text = manualEntrySetupCode;
+using (MemoryStream ms = new MemoryStream(setupCode.GetQrCodeImageData(qrscg)))
+{
+    qrCodePictureBox.Image = Image.FromStream(ms);
+}
 
+this.setupInfo.Text = "Account: " + setupCode.Account + System.Environment.NewLine +
+                      "Encoded Key: " + setupCode.ManualEntryKey;
+```
+
+### Verification
+```csharp
 // verify
+string input = "123456";
+
 TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
-bool result = tfa.ValidateTwoFactorPIN(key, txtCode.Text)
+PasswordToken token = PasswordToken.FromPassCode(int.Parse(input));
+
+bool result = tfa.ValidateTwoFactorPIN(key, token);
 ```
 
 ## History
 
+### 1.1.0
+
+- Breaking change: changed interface to use secured PasswordToken instead of primitive string
+
 ### 1.0.1
 
 - Forked and separated into two packages
-- Lowest supported versions are now netstandard2.0 and .Net 4.7.2.  
+- Lowest supported versions are now netstandard2.0 and .Net 4.7.2.
 
 ## Common Pitfalls
 
-* Don't use the secret key and `ManualEntryKey` interchangeably. `ManualEntryKey` is used to enter into the authenticator app when scanning a QR code is impossible and is derived from the secret key ([discussion example](https://github.com/BrandonPotter/GoogleAuthenticator/issues/54))
+* Don't use the secret key and `ManualEntryKey` interchangeably. `ManualEntryKey` is used to enter into 
+  the authenticator app when scanning a QR code is impossible and is derived from the secret key
+  ([discussion example](https://github.com/BrandonPotter/GoogleAuthenticator/issues/54))

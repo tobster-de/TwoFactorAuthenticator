@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using TwoFactorAuthenticator.Security;
 
 namespace TwoFactorAuthenticator
 {
@@ -99,7 +100,7 @@ namespace TwoFactorAuthenticator
         /// <param name="digits">The desired length of the returned PIN</param>
         /// <param name="secretIsBase32">Flag saying if accountSecretKey is in Base32 format or original secret</param>
         /// <returns>A 'PIN' that is valid for the specified time interval</returns>
-        public string GeneratePINAtInterval(
+        public PasswordToken GeneratePINAtInterval(
             string accountSecretKey,
             long counter,
             int digits = 6,
@@ -113,10 +114,10 @@ namespace TwoFactorAuthenticator
         /// <param name="counter">The number of 30-second (by default) intervals since the unix epoch</param>
         /// <param name="digits">The desired length of the returned PIN</param>
         /// <returns>A 'PIN' that is valid for the specified time interval</returns>
-        public string GeneratePINAtInterval(byte[] accountSecretKey, long counter, int digits = 6)
+        public PasswordToken GeneratePINAtInterval(byte[] accountSecretKey, long counter, int digits = 6)
             => this.GenerateHashedCode(accountSecretKey, counter, digits);
 
-        private string GenerateHashedCode(byte[] key, long iterationNumber, int digits = 6)
+        private PasswordToken GenerateHashedCode(byte[] key, long iterationNumber, int digits = 6)
         {
             byte[] counter = BitConverter.GetBytes(iterationNumber);
 
@@ -135,7 +136,15 @@ namespace TwoFactorAuthenticator
                 | hash[offset + 3];
 
             int password = binary % (int)Math.Pow(10, digits);
-            return password.ToString(new string('0', digits));
+            
+            PasswordToken token = new PasswordToken(digits);
+            for (int i = 0; i < digits; i++)
+            {
+                byte value = (byte)(password % 10);
+                token.InsertDigit(0, value);
+                password /= 10;
+            }
+            return token;
         }
 
         private long GetCurrentCounter()
@@ -153,7 +162,7 @@ namespace TwoFactorAuthenticator
         /// <returns>True if PIN is currently valid</returns>
         public bool ValidateTwoFactorPIN(
             string accountSecretKey,
-            string twoFactorCodeFromClient,
+            PasswordToken twoFactorCodeFromClient,
             bool secretIsBase32 = false)
             => this.ValidateTwoFactorPIN(
                 accountSecretKey,
@@ -171,7 +180,7 @@ namespace TwoFactorAuthenticator
         /// <returns>True if PIN is currently valid</returns>
         public bool ValidateTwoFactorPIN(
             string accountSecretKey,
-            string twoFactorCodeFromClient,
+            PasswordToken twoFactorCodeFromClient,
             TimeSpan timeTolerance,
             bool secretIsBase32 = false)
             => this.ValidateTwoFactorPIN(ConvertSecretToBytes(accountSecretKey, secretIsBase32),
@@ -184,7 +193,7 @@ namespace TwoFactorAuthenticator
         /// <param name="accountSecretKey">Account Secret Key</param>
         /// <param name="twoFactorCodeFromClient">The PIN from the client</param>
         /// <returns>True if PIN is currently valid</returns>
-        public bool ValidateTwoFactorPIN(byte[] accountSecretKey, string twoFactorCodeFromClient)
+        public bool ValidateTwoFactorPIN(byte[] accountSecretKey, PasswordToken twoFactorCodeFromClient)
             => this.ValidateTwoFactorPIN(accountSecretKey, twoFactorCodeFromClient, this.ClockDriftTolerance);
 
         /// <summary>
@@ -196,9 +205,10 @@ namespace TwoFactorAuthenticator
         /// <returns>True if PIN is currently valid</returns>
         public bool ValidateTwoFactorPIN(
             byte[] accountSecretKey,
-            string twoFactorCodeFromClient,
+            PasswordToken twoFactorCodeFromClient,
             TimeSpan timeTolerance)
-            => this.GetCurrentPINs(accountSecretKey, timeTolerance).Any(c => c == twoFactorCodeFromClient);
+            => this.GetCurrentPINs(accountSecretKey, timeTolerance)
+                   .Any(token => token.Validate(twoFactorCodeFromClient));
 
         /// <summary>
         /// Get the PIN for current time; the same code that a 2FA app would generate for the current time.
@@ -207,7 +217,7 @@ namespace TwoFactorAuthenticator
         /// <param name="accountSecretKey">Account Secret Key</param>
         /// <param name="secretIsBase32">Flag saying if accountSecretKey is in Base32 format or original secret</param>
         /// <returns>A 6-digit PIN</returns>
-        public string GetCurrentPIN(string accountSecretKey, bool secretIsBase32 = false)
+        public PasswordToken GetCurrentPIN(string accountSecretKey, bool secretIsBase32 = false)
             => this.GeneratePINAtInterval(accountSecretKey, this.GetCurrentCounter(), secretIsBase32: secretIsBase32);
 
         /// <summary>
@@ -218,7 +228,7 @@ namespace TwoFactorAuthenticator
         /// <param name="now">The time you wish to generate the pin for</param>
         /// <param name="secretIsBase32">Flag saying if accountSecretKey is in Base32 format or original secret</param>
         /// <returns>A 6-digit PIN</returns>
-        public string GetCurrentPIN(string accountSecretKey, DateTime now, bool secretIsBase32 = false)
+        public PasswordToken GetCurrentPIN(string accountSecretKey, DateTime now, bool secretIsBase32 = false)
             => this.GeneratePINAtInterval(accountSecretKey, this.GetCurrentCounter(now, Epoch, 30),
                 secretIsBase32: secretIsBase32);
 
@@ -228,7 +238,7 @@ namespace TwoFactorAuthenticator
         /// </summary>
         /// <param name="accountSecretKey">Account Secret Key</param>
         /// <returns>A 6-digit PIN</returns>
-        public string GetCurrentPIN(byte[] accountSecretKey)
+        public PasswordToken GetCurrentPIN(byte[] accountSecretKey)
             => this.GeneratePINAtInterval(accountSecretKey, this.GetCurrentCounter());
 
         /// <summary>
@@ -238,7 +248,7 @@ namespace TwoFactorAuthenticator
         /// <param name="accountSecretKey">Account Secret Key</param>
         /// <param name="now">The time you wish to generate the pin for</param>
         /// <returns>A 6-digit PIN</returns>
-        public string GetCurrentPIN(byte[] accountSecretKey, DateTime now)
+        public PasswordToken GetCurrentPIN(byte[] accountSecretKey, DateTime now)
             => this.GeneratePINAtInterval(accountSecretKey, this.GetCurrentCounter(now, Epoch, 30));
 
         /// <summary>
@@ -247,7 +257,7 @@ namespace TwoFactorAuthenticator
         /// <param name="accountSecretKey">Account Secret Key</param>
         /// <param name="secretIsBase32">Flag saying if accountSecretKey is in Base32 format or original secret</param>
         /// <returns></returns>
-        public string[] GetCurrentPINs(string accountSecretKey, bool secretIsBase32 = false)
+        public IEnumerable<PasswordToken> GetCurrentPINs(string accountSecretKey, bool secretIsBase32 = false)
             => this.GetCurrentPINs(accountSecretKey, this.ClockDriftTolerance, secretIsBase32);
 
         /// <summary>
@@ -257,7 +267,7 @@ namespace TwoFactorAuthenticator
         /// <param name="timeTolerance">The clock drift size you want to generate PINs for</param>
         /// <param name="secretIsBase32">Flag saying if accountSecretKey is in Base32 format or original secret</param>
         /// <returns></returns>
-        public string[] GetCurrentPINs(string accountSecretKey, TimeSpan timeTolerance, bool secretIsBase32 = false)
+        public IEnumerable<PasswordToken> GetCurrentPINs(string accountSecretKey, TimeSpan timeTolerance, bool secretIsBase32 = false)
             => this.GetCurrentPINs(ConvertSecretToBytes(accountSecretKey, secretIsBase32), timeTolerance);
 
         /// <summary>
@@ -265,7 +275,7 @@ namespace TwoFactorAuthenticator
         /// </summary>
         /// <param name="accountSecretKey">Account Secret Key</param>
         /// <returns></returns>
-        public string[] GetCurrentPINs(byte[] accountSecretKey)
+        public IEnumerable<PasswordToken> GetCurrentPINs(byte[] accountSecretKey)
             => this.GetCurrentPINs(accountSecretKey, this.ClockDriftTolerance);
 
         /// <summary>
@@ -274,9 +284,8 @@ namespace TwoFactorAuthenticator
         /// <param name="accountSecretKey">Account Secret Key</param>
         /// <param name="timeTolerance">The clock drift size you want to generate PINs for</param>
         /// <returns></returns>
-        public string[] GetCurrentPINs(byte[] accountSecretKey, TimeSpan timeTolerance)
+        public IEnumerable<PasswordToken> GetCurrentPINs(byte[] accountSecretKey, TimeSpan timeTolerance)
         {
-            List<string> codes = new List<string>();
             long iterationCounter = this.GetCurrentCounter();
             int iterationOffset = 0;
 
@@ -290,10 +299,8 @@ namespace TwoFactorAuthenticator
 
             for (long counter = iterationStart; counter <= iterationEnd; counter++)
             {
-                codes.Add(this.GeneratePINAtInterval(accountSecretKey, counter));
+                yield return this.GeneratePINAtInterval(accountSecretKey, counter);
             }
-
-            return codes.ToArray();
         }
 
         private static byte[] ConvertSecretToBytes(string secret, bool secretIsBase32)

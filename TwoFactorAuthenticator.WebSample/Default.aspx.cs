@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using TwoFactorAuthenticator.QrCoder;
+using TwoFactorAuthenticator.Security;
 
 namespace TwoFactorAuthenticator.WebSample
 {
@@ -33,7 +34,8 @@ namespace TwoFactorAuthenticator.WebSample
         protected void btnValidate_Click(object sender, EventArgs e)
         {
             TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
-            var result = tfa.ValidateTwoFactorPIN(Request.QueryString["key"], this.txtCode.Text);
+            PasswordToken token = PasswordToken.FromPassCode(int.Parse(this.txtCode.Text));
+            bool result = tfa.ValidateTwoFactorPIN(Request.QueryString["key"], token);
 
             if (result)
             {
