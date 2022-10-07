@@ -12,9 +12,10 @@ or [LastPass](https://play.google.com/store/apps/details?id=com.lastpass.authent
 
 ## Usage
 
-*Also see additional example projects at 
-[TwoFactorAuthenticator.WinTest](https://github.com/tobster-de/TwoFactorAuthenticator/tree/master/TwoFactorAuthenticator.WinTest) 
-and [TwoFactorAuthenticator.WebSample](https://github.com/tobster-de/TwoFactorAuthenticator/tree/master/TwoFactorAuthenticator.WebSample)*
+*Also see additional example projects at*
+* *[TwoFactorAuthenticator.WinformsExample](https://github.com/tobster-de/TwoFactorAuthenticator/tree/master/TwoFactorAuthenticator.WinformsExample)* 
+* *[TwoFactorAuthenticator.WpfExample](https://github.com/tobster-de/TwoFactorAuthenticator/tree/master/TwoFactorAuthenticator.WpfExample)*
+* *[TwoFactorAuthenticator.WebSample](https://github.com/tobster-de/TwoFactorAuthenticator/tree/master/TwoFactorAuthenticator.WebSample)*
 
 `key` should be stored by your application for future authentication and shouldn't be regenerated for 
 each request. The process of storing the private key is outside the scope of this library and is the 
@@ -68,11 +69,11 @@ bool result = tfa.ValidateTwoFactorPIN(key, token);
 ### 1.1.0
 
 - **Breaking changes**:
-  - ```TwoFactorAuthenticator``` should not be named like its namespace (created collision);
-  new name is just ```Authenticator```
-  - Changed interface to use secured ```PasswordToken``` instead of primitive string
-- Introduced ```UnsafeToken``` for generation / UI purposes
-- Introduced ```FactorControl``` for WinForms
+  - `TwoFactorAuthenticator` should not be named like its namespace (created collision);
+  new name is just `Authenticator`
+  - Changed interface to use secured `PasswordToken` instead of primitive string
+- Introduced `UnsafeToken` for generation / UI purposes
+- Introduced `FactorControl` for WinForms
 
 ### 1.0.1
 
