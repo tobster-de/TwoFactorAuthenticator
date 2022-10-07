@@ -437,5 +437,17 @@ namespace TwoFactorAuthenticator.Tests
 
             token.Validate(token2).ShouldBe(true);
         }
+
+        [Fact]
+        public void Test_DecodeToUnsafeToken()
+        {
+            int password = 508826;
+
+            PasswordToken token = PasswordToken.FromPassCode(password);
+            using (UnsafeToken unsafeToken = UnsafeToken.FromPasswordToken(token))
+            {
+                unsafeToken.ToString().ShouldBe(password.ToString());
+            }
+        }
     }
 }
