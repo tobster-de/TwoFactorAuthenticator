@@ -6,7 +6,9 @@
 version: 2
 updates:
   - package-ecosystem: "nuget"
-    directory: "/Google.Authenticator"
-    directory: "/Google.Authenticator.Tests"
+    directory: "/TwoFactorAuthenticator"
+    directory: "/TwoFactorAuthenticator.QrCoder"
+    directory: "/TwoFactorAuthenticator.WinForms"
+    directory: "/TwoFactorAuthenticator.Tests"
     schedule:
       interval: "weekly"
