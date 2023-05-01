@@ -72,6 +72,10 @@ bool result = tfa.ValidateTwoFactorPIN(key, token);
 
 ## History
 
+### next
+
+- Support ValidateTwoFactorPIN with iterationOffset as parameter
+
 ### 1.1.2
 
 - see Issue #31: Addressed a problem of PasswordToken.FromPassCode with codes having leading zeros.
