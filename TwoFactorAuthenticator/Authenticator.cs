@@ -211,6 +211,27 @@ namespace TwoFactorAuthenticator
                    .Any(token => token.Validate(twoFactorCodeFromClient));
 
         /// <summary>
+        /// Given a PIN from a client, check if it is valid at the current time.
+        /// </summary>
+        /// <param name="accountSecretKey">Account Secret Key</param>
+        /// <param name="twoFactorCodeFromClient">The PIN from the client</param>
+        /// <param name="iterationOffset">The counter window within which to check to allow for clock drift between devices.</param>
+        /// <param name="secretIsBase32">Flag saying if accountSecretKey is in Base32 format or original secret</param>
+        /// <returns>True if PIN is currently valid</returns>
+        public bool ValidateTwoFactorPIN(string accountSecretKey, PasswordToken twoFactorCodeFromClient, int iterationOffset, bool secretIsBase32 = false) 
+            => this.ValidateTwoFactorPIN(ConvertSecretToBytes(accountSecretKey, secretIsBase32), twoFactorCodeFromClient, iterationOffset);
+        
+        /// <summary>
+        /// Given a PIN from a client, check if it is valid at the current time.
+        /// </summary>
+        /// <param name="accountSecretKey">Account Secret Key</param>
+        /// <param name="twoFactorCodeFromClient">The PIN from the client</param>
+        /// <param name="iterationOffset">The counter window within which to check to allow for clock drift between devices.</param>
+        /// <returns>True if PIN is currently valid</returns>
+        public bool ValidateTwoFactorPIN(byte[] accountSecretKey, PasswordToken twoFactorCodeFromClient, int iterationOffset)
+            => this.GetCurrentPINs(accountSecretKey, iterationOffset).Any(token => token.Validate(twoFactorCodeFromClient));
+
+        /// <summary>
         /// Get the PIN for current time; the same code that a 2FA app would generate for the current time.
         /// Do not validate directly against this as clockdrift may cause a a different PIN to be generated than one you did a second ago.
         /// </summary>
@@ -286,13 +307,25 @@ namespace TwoFactorAuthenticator
         /// <returns></returns>
         public IEnumerable<PasswordToken> GetCurrentPINs(byte[] accountSecretKey, TimeSpan timeTolerance)
         {
-            long iterationCounter = this.GetCurrentCounter();
-            int iterationOffset = 0;
+            var iterationOffset = 0;
 
             if (timeTolerance.TotalSeconds > 30)
             {
                 iterationOffset = Convert.ToInt32(timeTolerance.TotalSeconds / 30.00);
             }
+
+            return GetCurrentPINs(accountSecretKey, iterationOffset);
+        }
+
+        /// <summary>
+        /// Get all the PINs that would be valid within the time window allowed for by the specified clock drift.
+        /// </summary>
+        /// <param name="accountSecretKey">Account Secret Key</param>
+        /// <param name="iterationOffset">The counter drift size you want to generate PINs for</param>
+        /// <returns></returns>
+        public IEnumerable<PasswordToken> GetCurrentPINs(byte[] accountSecretKey, int iterationOffset)
+        {
+            long iterationCounter = this.GetCurrentCounter();
 
             long iterationStart = iterationCounter - iterationOffset;
             long iterationEnd = iterationCounter + iterationOffset;
