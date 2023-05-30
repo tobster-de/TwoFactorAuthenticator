@@ -74,6 +74,8 @@ bool result = tfa.ValidateTwoFactorPIN(key, token);
 
 ### next
 
+Upstream changes:
+- Fixed an edge case where specifying an interval of 30 seconds to the Validate function would be treated as if you had passed in 0.
 - Support ValidateTwoFactorPIN with iterationOffset as parameter
 
 ### 1.1.2
