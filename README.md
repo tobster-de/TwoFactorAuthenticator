@@ -75,6 +75,9 @@ bool result = tfa.ValidateTwoFactorPIN(key, token);
 ### next
 
 Upstream changes:
+- Added support for HMACSHA256 and HMACSHA512 as per the [RFC spec](https://datatracker.ietf.org/doc/html/rfc6238#section-1.2). 
+  In testing it was found that several popular apps (such as Authy and Microsoft Authenticator) may not have support for these algorithms 
+  so care should be taken by the developer to ensure compatible apps are used.
 - Fixed an edge case where specifying an interval of 30 seconds to the Validate function would be treated as if you had passed in 0.
 - Support ValidateTwoFactorPIN with iterationOffset as parameter
 

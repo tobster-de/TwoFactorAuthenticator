@@ -18,18 +18,38 @@ namespace TwoFactorAuthenticator
 
         public TimeSpan ClockDriftTolerance { get; private set; }
 
+        public HashType HashType { get; private set; }
+
+        /// <summary>
+        /// Create a new instance with disabled clock drift tolerance. The user will be forced
+        /// to have the exact code for the time of validation.
+        ///
+        /// Defaults to hash algorithm SHA1.
+        /// </summary>        
+        public Authenticator() : this(HashType.SHA1)
+        {}
+
         /// <summary>
         /// Create a new instance with disabled clock drift tolerance. The user will be forced
         /// to have the exact code for the time of validation. 
         /// </summary>
-        public Authenticator() => this.ClockDriftTolerance = TimeSpan.FromSeconds(30);
+        public Authenticator(HashType hashType)
+        {
+            this.HashType = hashType;
+            this.ClockDriftTolerance = TimeSpan.FromSeconds(30);
+        }
 
         /// <summary>
         /// Create a new instance with clock drift tolerance set to provided timespan. The user will be allowed
         /// to have any code that matches valid codes within the time range before and after current time. 
         /// </summary>
         /// <param name="clockDriftTolerance">The clock is allowed to be off this time span.</param>
-        public Authenticator(TimeSpan clockDriftTolerance) => this.ClockDriftTolerance = clockDriftTolerance;
+        /// <param name="hashType"></param>
+        public Authenticator(TimeSpan clockDriftTolerance, HashType hashType = HashType.SHA1)
+        {
+            this.HashType = hashType;
+            this.ClockDriftTolerance = clockDriftTolerance;
+        }
 
         /// <summary>
         /// Generate a setup code for a Authenticator user to scan
@@ -72,12 +92,13 @@ namespace TwoFactorAuthenticator
 
             string secret = Base32Encoding.ToString(accountSecretKey).Trim('=');
             string encodedIssuer = UrlEncode(issuer);
+            string algorithm = this.HashType == HashType.SHA1 ? "" : $"&algorithm={this.HashType}";
             string provisionUrl = string.IsNullOrWhiteSpace(issuer)
-                                      ? $"otpauth://totp/{accountTitleNoSpaces}?secret={secret}"
-                                      //  https://github.com/google/google-authenticator/wiki/Conflicting-Accounts
-                                      // Added additional prefix to account otpauth://totp/Company:joe_example@gmail.com
-                                      // for backwards compatibility
-                                      : $"otpauth://totp/{encodedIssuer}:{accountTitleNoSpaces}?secret={secret}&issuer={encodedIssuer}";
+                                      ? $"otpauth://totp/{accountTitleNoSpaces}?secret={secret}{algorithm}"
+                //  https://github.com/google/google-authenticator/wiki/Conflicting-Accounts
+                // Added additional prefix to account otpauth://totp/Company:joe_example@gmail.com
+                // for backwards compatibility
+                                      : $"otpauth://totp/{encodedIssuer}:{accountTitleNoSpaces}?secret={secret}&issuer={encodedIssuer}{algorithm}";
 
             return new SetupCode
                    {
@@ -124,7 +145,14 @@ namespace TwoFactorAuthenticator
             if (BitConverter.IsLittleEndian)
                 Array.Reverse(counter);
 
-            HMACSHA1 hmac = new HMACSHA1(key);
+            HMAC hmac;
+            if (HashType == HashType.SHA256)
+                hmac = new HMACSHA256(key);
+            else if (HashType == HashType.SHA512)
+                hmac = new HMACSHA512(key);
+            else
+                hmac = new HMACSHA1(key);
+
             byte[] hash = hmac.ComputeHash(counter);
             int offset = hash[hash.Length - 1] & 0xf;
 
@@ -143,7 +171,7 @@ namespace TwoFactorAuthenticator
                 byte value = (byte)(password % 10);
                 token.InsertDigit(0, value);
                 password /= 10;
-            }
+        }
             return token;
         }
 
