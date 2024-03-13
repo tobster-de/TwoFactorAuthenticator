@@ -5,6 +5,8 @@ using System.Security.Cryptography;
 using System.Text;
 using TwoFactorAuthenticator.Security;
 
+// ReSharper disable InconsistentNaming
+
 namespace TwoFactorAuthenticator
 {
     /// <summary>
@@ -16,27 +18,42 @@ namespace TwoFactorAuthenticator
         private static readonly DateTime Epoch =
             new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-        public TimeSpan ClockDriftTolerance { get; private set; }
+        public TimeSpan ClockDriftTolerance { get; }
 
-        public HashType HashType { get; private set; }
+        public HashType HashType { get; }
+
+        public int TimeStepDuration { get; }
 
         /// <summary>
-        /// Create a new instance with disabled clock drift tolerance. The user will be forced
+        /// Create a new default instance with disabled clock drift tolerance requiring the user 
         /// to have the exact code for the time of validation.
         ///
-        /// Defaults to hash algorithm SHA1.
+        /// Defaults to hash algorithm SHA1 and time step duration of 30 seconds.
         /// </summary>        
         public Authenticator() : this(HashType.SHA1)
-        {}
+        {
+        }
 
         /// <summary>
-        /// Create a new instance with disabled clock drift tolerance. The user will be forced
-        /// to have the exact code for the time of validation. 
+        /// Create a new instance with disabled clock drift tolerance and the provided time step duration.
+        /// The user will be forced to have the exact code for the time of validation.
+        ///
+        /// Defaults to hash algorithm SHA1.
         /// </summary>
-        public Authenticator(HashType hashType)
+        /// <param name="timeStepDuration">The TOTP time step duration to use.</param>
+        public Authenticator(int timeStepDuration) : this(HashType.SHA1, timeStepDuration)
         {
-            this.HashType = hashType;
-            this.ClockDriftTolerance = TimeSpan.FromSeconds(30);
+        }
+
+        /// <summary>
+        /// Create a new instance with disabled clock drift tolerance and the provided time step duration.
+        /// The user will be forced to have the exact code for the time of validation.
+        /// The provided hash algorithm is used. 
+        /// </summary>
+        /// <param name="hashType">Hash algorithm to use.</param>
+        /// <param name="timeStepDuration">The TOTP time step duration to use.</param>
+        public Authenticator(HashType hashType, int timeStepDuration = 30) : this(TimeSpan.FromSeconds(30), hashType, timeStepDuration)
+        {
         }
 
         /// <summary>
@@ -44,11 +61,13 @@ namespace TwoFactorAuthenticator
         /// to have any code that matches valid codes within the time range before and after current time. 
         /// </summary>
         /// <param name="clockDriftTolerance">The clock is allowed to be off this time span.</param>
-        /// <param name="hashType"></param>
-        public Authenticator(TimeSpan clockDriftTolerance, HashType hashType = HashType.SHA1)
+        /// <param name="hashType">Hash algorithm to use.</param>
+        /// <param name="timeStepDuration">The TOTP time step duration to use.</param>
+        public Authenticator(TimeSpan clockDriftTolerance, HashType hashType = HashType.SHA1, int timeStepDuration = 30)
         {
             this.HashType = hashType;
             this.ClockDriftTolerance = clockDriftTolerance;
+            this.TimeStepDuration = timeStepDuration;
         }
 
         /// <summary>
@@ -62,8 +81,8 @@ namespace TwoFactorAuthenticator
         /// <param name="secretIsBase32">Flag saying if accountSecretKey is in Base32 format or original secret</param>
         /// <returns>SetupCode object</returns>
         public SetupCode GenerateSetupCode(
-            string issuer, 
-            string accountTitleNoSpaces, 
+            string issuer,
+            string accountTitleNoSpaces,
             string accountSecretKey,
             bool secretIsBase32 = false)
             => this.GenerateSetupCode(issuer, accountTitleNoSpaces, ConvertSecretToBytes(accountSecretKey, secretIsBase32));
@@ -95,17 +114,17 @@ namespace TwoFactorAuthenticator
             string algorithm = this.HashType == HashType.SHA1 ? "" : $"&algorithm={this.HashType}";
             string provisionUrl = string.IsNullOrWhiteSpace(issuer)
                                       ? $"otpauth://totp/{accountTitleNoSpaces}?secret={secret}{algorithm}"
-                //  https://github.com/google/google-authenticator/wiki/Conflicting-Accounts
-                // Added additional prefix to account otpauth://totp/Company:joe_example@gmail.com
-                // for backwards compatibility
+                                      //  https://github.com/google/google-authenticator/wiki/Conflicting-Accounts
+                                      // Added additional prefix to account otpauth://totp/Company:joe_example@gmail.com
+                                      // for backwards compatibility
                                       : $"otpauth://totp/{encodedIssuer}:{accountTitleNoSpaces}?secret={secret}&issuer={encodedIssuer}{algorithm}";
 
             return new SetupCode
-                   {
-                       Account = accountTitleNoSpaces,
-                       ManualEntryKey = secret,
-                       ProvisionUrl = provisionUrl
-                   };
+            {
+                Account = accountTitleNoSpaces,
+                ManualEntryKey = secret,
+                ProvisionUrl = provisionUrl
+            };
         }
 
         private static string RemoveWhitespace(string str)
@@ -164,22 +183,22 @@ namespace TwoFactorAuthenticator
                 | hash[offset + 3];
 
             int password = binary % (int)Math.Pow(10, digits);
-            
+
             PasswordToken token = new PasswordToken(digits);
             for (int i = 0; i < digits; i++)
             {
                 byte value = (byte)(password % 10);
                 token.InsertDigit(0, value);
                 password /= 10;
-        }
+            }
+
             return token;
         }
 
-        private long GetCurrentCounter()
-            => this.GetCurrentCounter(DateTime.UtcNow, Epoch, 30);
+        private long GetCurrentCounter() => this.GetCurrentCounter(DateTime.UtcNow, Epoch);
 
-        private long GetCurrentCounter(DateTime now, DateTime epoch, int timeStep)
-            => (long)(now - epoch).TotalSeconds / timeStep;
+        private long GetCurrentCounter(DateTime now, DateTime epoch) =>
+            (long)(now - epoch).TotalSeconds / this.TimeStepDuration;
 
         /// <summary>
         /// Given a PIN from a client, check if it is valid at the current time.
@@ -246,9 +265,10 @@ namespace TwoFactorAuthenticator
         /// <param name="iterationOffset">The counter window within which to check to allow for clock drift between devices.</param>
         /// <param name="secretIsBase32">Flag saying if accountSecretKey is in Base32 format or original secret</param>
         /// <returns>True if PIN is currently valid</returns>
-        public bool ValidateTwoFactorPIN(string accountSecretKey, PasswordToken twoFactorCodeFromClient, int iterationOffset, bool secretIsBase32 = false) 
+        public bool ValidateTwoFactorPIN(string accountSecretKey, PasswordToken twoFactorCodeFromClient, int iterationOffset,
+            bool secretIsBase32 = false)
             => this.ValidateTwoFactorPIN(ConvertSecretToBytes(accountSecretKey, secretIsBase32), twoFactorCodeFromClient, iterationOffset);
-        
+
         /// <summary>
         /// Given a PIN from a client, check if it is valid at the current time.
         /// </summary>
@@ -278,7 +298,7 @@ namespace TwoFactorAuthenticator
         /// <param name="secretIsBase32">Flag saying if accountSecretKey is in Base32 format or original secret</param>
         /// <returns>A 6-digit PIN</returns>
         public PasswordToken GetCurrentPIN(string accountSecretKey, DateTime now, bool secretIsBase32 = false)
-            => this.GeneratePINAtInterval(accountSecretKey, this.GetCurrentCounter(now, Epoch, 30),
+            => this.GeneratePINAtInterval(accountSecretKey, this.GetCurrentCounter(now, Epoch),
                 secretIsBase32: secretIsBase32);
 
         /// <summary>
@@ -298,7 +318,7 @@ namespace TwoFactorAuthenticator
         /// <param name="now">The time you wish to generate the pin for</param>
         /// <returns>A 6-digit PIN</returns>
         public PasswordToken GetCurrentPIN(byte[] accountSecretKey, DateTime now)
-            => this.GeneratePINAtInterval(accountSecretKey, this.GetCurrentCounter(now, Epoch, 30));
+            => this.GeneratePINAtInterval(accountSecretKey, this.GetCurrentCounter(now, Epoch));
 
         /// <summary>
         /// Get all the PINs that would be valid within the time window allowed for by the default clock drift.
@@ -335,11 +355,11 @@ namespace TwoFactorAuthenticator
         /// <returns></returns>
         public IEnumerable<PasswordToken> GetCurrentPINs(byte[] accountSecretKey, TimeSpan timeTolerance)
         {
-            var iterationOffset = 0;
+            int iterationOffset = 0;
 
-            if (timeTolerance.TotalSeconds >= 30)
+            if (timeTolerance.TotalSeconds >= this.TimeStepDuration)
             {
-                iterationOffset = Convert.ToInt32(timeTolerance.TotalSeconds / 30.00);
+                iterationOffset = Convert.ToInt32(timeTolerance.TotalSeconds / this.TimeStepDuration);
             }
 
             return GetCurrentPINs(accountSecretKey, iterationOffset);
