@@ -17,8 +17,6 @@ namespace TwoFactorAuthenticator.Tests
 
             int currentTime = 1416643820;
 
-            // I actually think you are supposed to divide the time by 30 seconds?
-            // Maybe need an overload that takes a DateTime?
             PasswordToken actual = tfa.GeneratePINAtInterval(secretKey, currentTime, 6);
 
             actual.Validate(expected).ShouldBe(true);
