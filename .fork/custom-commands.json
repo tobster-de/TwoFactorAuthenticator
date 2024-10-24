@@ -1,0 +1,78 @@
+[
+  {
+    "version" : 1
+  },
+  {
+    "name" : "Clean Repo",
+    "target" : "repository",
+    "ui" : {
+      "buttons" : [
+        {
+          "action" : {
+            "args" : "clean -f -d -x",
+            "path" : "$git",
+            "showOutput" : true,
+            "type" : "process",
+            "waitForExit" : true
+          },
+          "title" : "OK"
+        },
+        {
+          "action" : {
+            "type" : "cancel"
+          },
+          "title" : "Cancel"
+        }
+      ],
+      "controls" : [],
+      "description" : "Clean up repository now?",
+      "title" : "Execute Clean"
+    }
+  },
+  {
+    "action" : {
+      "args" : "describe --tags --abbrev=12 $SHA",
+      "path" : "$git",
+      "showOutput" : true,
+      "type" : "process",
+      "waitForExit" : true
+    },
+    "name" : "Describe commit",
+    "target" : "revision"
+  },
+  {
+    "action" : {
+      "args" : "$filepath",
+      "path" : "C:\\Program Files\\Notepad++\\notepad++.exe",
+      "showOutput" : false,
+      "type" : "process",
+      "waitForExit" : false
+    },
+    "name" : "Edit using Notepad++",
+    "os" : "windows",
+    "target" : "file"
+  },
+  {
+    "action" : {
+      "args" : "${file}",
+      "path" : "C:\\Program Files\\Microsoft VS Code\\Code.exe",
+      "showOutput" : false,
+      "type" : "process",
+      "waitForExit" : false
+    },
+    "name" : "Edit using VS Code",
+    "os" : "windows",
+    "target" : "file"
+  },
+  {
+    "action" : {
+      "args" : "branch -r --contains $SHA",
+      "path" : "$git",
+      "showOutput" : true,
+      "type" : "process",
+      "waitForExit" : true
+    },
+    "name" : "Show Branch of Commit",
+    "target" : "revision"
+  }
+]
