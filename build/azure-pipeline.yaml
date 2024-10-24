@@ -20,11 +20,13 @@ jobs:
   pool:
 #    vmImage: $(imageName)
     vmImage: 'windows-latest'
-  
+
   steps:
+
+  # https://learn.microsoft.com/de-de/azure/devops/pipelines/tasks/reference/use-dotnet-v2  
   - task: UseDotNet@2
     inputs:
-      version: '5.0.x'
+      version: '8.0.x'  #lts
       packageType: runtime
 
   # There is a legacy project in the solution that dotnet won't build, so restoring and building individual projects
