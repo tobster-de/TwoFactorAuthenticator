@@ -6,7 +6,8 @@ from [Microsoft](https://play.google.com/store/apps/details?id=com.azure.authent
 or [LastPass](https://play.google.com/store/apps/details?id=com.lastpass.authenticator).
 
 [![Build Status](https://dev.azure.com/tkolb80/TwoFactorAuthenticator/_apis/build/status/TwoFactorAuthenticator?branchName=master)](https://dev.azure.com/tkolb80/TwoFactorAuthenticator/_build/latest?definitionId=2&branchName=master)
-[![NuGet Status](https://buildstats.info/nuget/TwoFactorAuthenticator)](https://www.nuget.org/packages/TwoFactorAuthenticator/)
+![NuGet Version](https://img.shields.io/nuget/v/TwoFactorAuthenticator)
+![NuGet Downloads](https://img.shields.io/nuget/dt/TwoFactorAuthenticator)
 
 [`Install-Package TwoFactorAuthenticator`](https://www.nuget.org/packages/TwoFactorAuthenticator)
 
