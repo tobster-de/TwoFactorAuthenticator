@@ -12,6 +12,7 @@
     <PackageProjectUrl>https://github.com/tobster-de/TwoFactorAuthenticator</PackageProjectUrl>
     <PackageId>TwoFactorAuthenticator</PackageId>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   
   <ItemGroup>
