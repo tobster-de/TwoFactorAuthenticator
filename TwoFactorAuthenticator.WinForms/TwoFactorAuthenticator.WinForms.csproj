@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net472;net5.0-windows</TargetFrameworks>
+        <TargetFrameworks>net472;net6.0-windows</TargetFrameworks>
         <Product>Two-Factor Authenticator</Product>
         <Title>Two-Factor authentication QR code generation library</Title>
         <Description>Two-Factor authentication library - Windows.Forms controls</Description>
