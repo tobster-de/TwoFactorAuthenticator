@@ -67,6 +67,10 @@ bool result = tfa.ValidateTwoFactorPIN(key, token);
 
 ## History
 
+### 1.1.1
+
+- see PR #14: Updated System.Security.Cryptography.ProtectedData from 6.0.0 to 7.0.1.
+
 ### 1.1.0
 
 - **Breaking changes**:
