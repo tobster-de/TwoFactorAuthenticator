@@ -1,6 +1,6 @@
 name: TwoFactorAuthenticator
-trigger: [ master ]
-pr: [ master ]
+trigger: [ main ]
+pr: [ main ]
 
 variables:
   buildConfiguration: Release
@@ -62,13 +62,13 @@ jobs:
 
 - job: Pack
   dependsOn: Test
-  condition: and(succeeded('Test'), or(eq(variables['Build.SourceBranchName'], 'master'),eq(variables['Build.SourceBranchName'], 'develop')))
+  condition: and(succeeded('Test'), or(eq(variables['Build.SourceBranchName'], 'main'),eq(variables['Build.SourceBranchName'], 'develop')))
 
   pool:
     vmImage: 'windows-latest'
 
   steps:
-  # This creates the Nuget package only if the change was from "master". It also supports publishing from a "develop" branch, which is not currently used in this project
+  # This creates the Nuget package only if the change was from "main". It also supports publishing from a "develop" branch, which is not currently used in this project
   - script: |
       dotnet build ./TwoFactorAuthenticator/TwoFactorAuthenticator.csproj --configuration $(buildConfiguration)
       dotnet build ./TwoFactorAuthenticator.QrCoder/TwoFactorAuthenticator.QrCoder.csproj --configuration $(buildConfiguration)
@@ -84,4 +84,4 @@ jobs:
   - task: PublishBuildArtifacts@1
     inputs:
       pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      artifactName: NugetPackage
+      artifactName: NugetPackages
