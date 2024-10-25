@@ -20,9 +20,24 @@ jobs:
   pool:
 #    vmImage: $(imageName)
     vmImage: 'windows-latest'
-  
+
   steps:
 
+  # https://learn.microsoft.com/de-de/azure/devops/pipelines/tasks/reference/use-dotnet-v2
+  # https://github.com/dotnet/core/blob/main/release-notes/releases-index.json
+  - task: UseDotNet@2
+    inputs:
+      version: '3.1.x'  #lts
+      packageType: runtime
+  - task: UseDotNet@2
+    inputs:
+      version: '6.0.x'  #lts
+      packageType: runtime
+  - task: UseDotNet@2
+    inputs:
+      version: '8.0.x'  #lts
+      packageType: runtime
+      
   # There is a legacy project in the solution that dotnet won't build, so restoring and building individual projects
   - script: |
       dotnet restore ./TwoFactorAuthenticator/TwoFactorAuthenticator.csproj 
