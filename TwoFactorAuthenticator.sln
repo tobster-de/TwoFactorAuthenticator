@@ -9,17 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoFactorAuthenticator.Winf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoFactorAuthenticator.WebSample", "TwoFactorAuthenticator.WebSample\TwoFactorAuthenticator.WebSample.csproj", "{21A63F79-D85F-4FE7-AC74-5171FAC0DCBF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublishScripts", "PublishScripts", "{AEA3C33C-6FF6-447C-AB2A-97E39AD97441}"
-	ProjectSection(SolutionItems) = preProject
-		PublishScripts\AzureWebsitePublishModule.psm1 = PublishScripts\AzureWebsitePublishModule.psm1
-		PublishScripts\Publish-WebApplicationWebsite.ps1 = PublishScripts\Publish-WebApplicationWebsite.ps1
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configurations", "Configurations", "{A4B0F582-7831-4BFD-825C-64153E7E2138}"
-	ProjectSection(SolutionItems) = preProject
-		PublishScripts\Configurations\GoogleAuthenticatorWebSample-WAWS-dev.json = PublishScripts\Configurations\GoogleAuthenticatorWebSample-WAWS-dev.json
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoFactorAuthenticator.Tests", "TwoFactorAuthenticator.Tests\TwoFactorAuthenticator.Tests.csproj", "{5671E1C5-7CD0-4F42-8FFD-33879A9663DA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoFactorAuthenticator.QrCoder", "TwoFactorAuthenticator.QrCoder\TwoFactorAuthenticator.QrCoder.csproj", "{CE91EBFB-BC47-42D5-9538-38DCF5C0BE12}"
@@ -27,6 +16,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoFactorAuthenticator.WpfExample", "TwoFactorAuthenticator.WpfExample\TwoFactorAuthenticator.WpfExample.csproj", "{3F2BF9CE-EBEA-43C2-9BCA-21D50CD53CA6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoFactorAuthenticator.WinForms", "TwoFactorAuthenticator.WinForms\TwoFactorAuthenticator.WinForms.csproj", "{030F3A5F-B1BF-41BD-A1C0-261441242B28}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{F478C880-CD6D-4FFE-A258-FC48B47D674D}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution

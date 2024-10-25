@@ -7,22 +7,19 @@
     <Description>Two-Factor authentication library for use with diverse authentication apps.</Description>
     <Authors>Brandon Potter,Tobias Kolb</Authors>
     <Company>Open source community</Company>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/tobster-de/TwoFactorAuthenticator</PackageProjectUrl>
     <PackageId>TwoFactorAuthenticator</PackageId>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <LangVersion>latest</LangVersion>
+    <PackageReleaseNotes>Updated System.Security.Cryptography.ProtectedData from 6.0.0 to 7.0.1.</PackageReleaseNotes>
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
     <None Include="..\README.md" Pack="true" PackagePath="\" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
     <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="7.0.1" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="Properties" />
   </ItemGroup>
   
   <ItemGroup>
