@@ -428,14 +428,51 @@ namespace TwoFactorAuthenticator.Tests
             byte[] digits = { 5, 0, 8, 8, 2, 6 };
 
             PasswordToken token = PasswordToken.FromPassCode(password);
-            PasswordToken token2 = new PasswordToken();
 
+            PasswordToken expected = new PasswordToken();
             foreach (byte value in digits)
             {
-                token2.AppendDigit(value);
+                expected.AppendDigit(value);
             }
 
-            token.Validate(token2).ShouldBe(true);
+            token.Validate(expected).ShouldBe(true);
+        }
+
+        [Fact]
+        public void Test_EncodePinToToken_Array()
+        {
+            byte[] digits = { 1, 0, 5, 5, 2, 3 };
+
+            PasswordToken token = PasswordToken.FromPassCode(digits);
+            PasswordToken expected = new PasswordToken();
+            foreach (byte value in digits)
+            {
+                expected.AppendDigit(value);
+            }
+
+            token.Validate(expected).ShouldBeTrue();
+            token.Length.ShouldBe(6);
+        }
+
+        [Fact]
+        public void Test_EncodePinToToken_LeadingZeroes()
+        {
+            int password = 005826;
+            byte[] digits = { 0, 0, 5, 8, 2, 6 };
+
+            PasswordToken tokenWrong = PasswordToken.FromPassCode(password);
+            PasswordToken tokenRight = PasswordToken.FromPassCode(password, digits.Length);
+
+            PasswordToken expected = new PasswordToken();
+            foreach (byte value in digits)
+            {
+                expected.AppendDigit(value);
+            }
+
+            tokenWrong.Validate(expected).ShouldBeFalse();
+            tokenWrong.Length.ShouldBe(4);
+            tokenRight.Validate(expected).ShouldBeTrue();
+            tokenRight.Length.ShouldBe(digits.Length);
         }
 
         [Fact]
@@ -448,6 +485,32 @@ namespace TwoFactorAuthenticator.Tests
             {
                 unsafeToken.ToString().ShouldBe(password.ToString());
             }
+        }
+
+        [Fact]
+        public void Test_CreateTokenFromString()
+        {
+            string tokenString = "005826";
+            int password = int.Parse(tokenString);
+
+            PasswordToken token = PasswordToken.FromPassCode(password, tokenString.Length);
+            PasswordToken fromString = CreateToken(tokenString);
+
+            token.Validate(fromString).ShouldBeTrue();
+        }
+
+        static PasswordToken CreateToken(string tokenString)
+        {
+            var token = new PasswordToken(6);
+            foreach (char digit in tokenString)
+            {
+                if (char.IsDigit(digit))
+                {
+                    token.AppendDigit((byte)(digit - '0'));
+                }
+            }
+
+            return token;
         }
     }
 }
