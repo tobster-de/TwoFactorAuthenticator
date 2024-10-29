@@ -8,8 +8,9 @@ trigger: [ main ]
 variables:
   buildConfiguration: Release
 
+jobs:
 - job: Pack
-  condition: or(eq(variables['Build.SourceBranchName'], 'main'), eq(variables['Build.SourceBranchName'], 'develop')))
+  condition: or(eq(variables['Build.SourceBranchName'], 'main'), eq(variables['Build.SourceBranchName'], 'develop'))
 
   pool:
     vmImage: 'windows-latest'
