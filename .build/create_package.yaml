@@ -1,12 +1,12 @@
-name: TwoFactorAuthenticator
+# This creates the Nuget package only if the change was from "main". 
+# It also supports publishing from a "develop" branch, which is not currently used in this project
+
+name: Create Package
 trigger: [ main ]
 #pr: [ main ]
 
 variables:
   buildConfiguration: Release
-
-# This creates the Nuget package only if the change was from "main". 
-# It also supports publishing from a "develop" branch, which is not currently used in this project
 
 - job: Pack
   condition: or(eq(variables['Build.SourceBranchName'], 'main'), eq(variables['Build.SourceBranchName'], 'develop')))
