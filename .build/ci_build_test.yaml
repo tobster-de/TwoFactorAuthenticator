@@ -6,7 +6,7 @@ variables:
   buildConfiguration: Debug
 
 jobs:
-- job: Build and test
+- job: Build_Test
 
   pool:
     vmImage: 'windows-latest'
