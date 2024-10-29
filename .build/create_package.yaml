@@ -1,0 +1,33 @@
+name: TwoFactorAuthenticator
+trigger: [ main ]
+#pr: [ main ]
+
+variables:
+  buildConfiguration: Release
+
+# This creates the Nuget package only if the change was from "main". 
+# It also supports publishing from a "develop" branch, which is not currently used in this project
+
+- job: Pack
+  condition: or(eq(variables['Build.SourceBranchName'], 'main'), eq(variables['Build.SourceBranchName'], 'develop')))
+
+  pool:
+    vmImage: 'windows-latest'
+
+  steps:
+  - script: |
+      dotnet build ./TwoFactorAuthenticator/TwoFactorAuthenticator.csproj --configuration $(buildConfiguration)
+      dotnet build ./TwoFactorAuthenticator.QrCoder/TwoFactorAuthenticator.QrCoder.csproj --configuration $(buildConfiguration)
+      dotnet build ./TwoFactorAuthenticator.WinForms/TwoFactorAuthenticator.WinForms.csproj --configuration $(buildConfiguration)
+    displayName: build packages
+
+  - script: |
+      dotnet pack ./TwoFactorAuthenticator/TwoFactorAuthenticator.csproj --configuration $(buildConfiguration) --no-build --output $(Build.ArtifactStagingDirectory)
+      dotnet pack ./TwoFactorAuthenticator.QrCoder/TwoFactorAuthenticator.QrCoder.csproj --configuration $(buildConfiguration) --no-build --output $(Build.ArtifactStagingDirectory)
+      dotnet pack ./TwoFactorAuthenticator.WinForms/TwoFactorAuthenticator.WinForms.csproj --configuration $(buildConfiguration) --no-build --output $(Build.ArtifactStagingDirectory)
+    displayName: pack
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      artifactName: NugetPackages

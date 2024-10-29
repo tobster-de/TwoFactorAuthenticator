@@ -1,0 +1,47 @@
+name: CI Build
+#trigger: [ main ]
+pr: [ main ]
+
+variables:
+  buildConfiguration: Debug
+
+jobs:
+- job: Build and test
+
+  pool:
+    vmImage: 'windows-latest'
+
+  steps:
+
+  # https://learn.microsoft.com/de-de/azure/devops/pipelines/tasks/reference/use-dotnet-v2
+  # https://github.com/dotnet/core/blob/main/release-notes/releases-index.json
+  - task: UseDotNet@2
+    inputs:
+      version: '6.0.x'  #lts
+      packageType: runtime
+  - task: UseDotNet@2
+    inputs:
+      version: '8.0.x'  #lts
+      packageType: runtime
+      
+  # There is a legacy project in the solution that dotnet won't build, so restoring and building individual projects
+  - script: |
+      dotnet restore ./TwoFactorAuthenticator/TwoFactorAuthenticator.csproj 
+      dotnet restore ./TwoFactorAuthenticator.QrCoder/TwoFactorAuthenticator.QrCoder.csproj --no-dependencies
+      dotnet restore ./TwoFactorAuthenticator.WinForms/TwoFactorAuthenticator.WinForms.csproj --no-dependencies
+      dotnet restore ./TwoFactorAuthenticator.Tests/TwoFactorAuthenticator.Tests.csproj --no-dependencies
+    displayName: restore packages
+
+  - script: |
+      dotnet build ./TwoFactorAuthenticator/TwoFactorAuthenticator.csproj --configuration $(buildConfiguration) --no-restore
+      dotnet build ./TwoFactorAuthenticator.QrCoder/TwoFactorAuthenticator.QrCoder.csproj --configuration $(buildConfiguration) --no-restore
+      dotnet build ./TwoFactorAuthenticator.WinForms/TwoFactorAuthenticator.WinForms.csproj --configuration $(buildConfiguration) --no-restore
+      dotnet build ./TwoFactorAuthenticator.Tests/TwoFactorAuthenticator.Tests.csproj --configuration $(buildConfiguration) --no-restore --no-dependencies
+    displayName: build projects
+
+  - task: DotNetCoreCLI@2
+    displayName: test
+    inputs:
+      command: test
+      projects: './TwoFactorAuthenticator.Tests/TwoFactorAuthenticator.Tests.csproj'
+      arguments: '--configuration $(buildConfiguration)'
