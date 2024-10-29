@@ -67,6 +67,10 @@ bool result = tfa.ValidateTwoFactorPIN(key, token);
 
 ## History
 
+### 1.1.2
+
+- see Issue #31: Addressed a problem with creation of PasswordToken having leading zeros.
+
 ### 1.1.1
 
 - see PR #14: Updated System.Security.Cryptography.ProtectedData from 6.0.0 to 7.0.1.
