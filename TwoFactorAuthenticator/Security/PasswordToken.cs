@@ -6,28 +6,88 @@ using System.Security.Cryptography;
 
 namespace TwoFactorAuthenticator.Security
 {
+    /// <summary>
+    ///     Password token class for handling tokens in a protected fashion. 
+    /// </summary>
     public class PasswordToken : IDisposable, IEquatable<PasswordToken>
     {
         private byte[] _storage;
         private int _hash;
 
+        /// <summary>
+        ///     Sets the digit at the provided index.
+        /// </summary>
+        /// <param name="index">Index of the digit</param>
         public byte this[int index]
         {
             internal get => this.GetDigit(index);
             set => this.SetDigit(index, value);
         }
 
+        /// <summary>
+        ///     The maximum length this token can be filled to.
+        /// </summary>
         public int MaxLength { get; }
 
+        /// <summary>
+        ///     Current length of this token.
+        /// </summary>
         public int Length { get; private set; }
 
+        /// <summary>
+        ///     Create a new token that can hold up to the provided count of digits.
+        /// </summary>
+        /// <param name="maxLength">The token will hold up to this count of digits.</param>
         public PasswordToken(int maxLength = 6)
         {
             this.MaxLength = maxLength;
             this.Init();
         }
 
-        public static PasswordToken FromPassCode(int passcode)
+        /// <summary>
+        ///     Create a token from provided code. 
+        /// </summary>
+        /// <param name="passcode">The passcode as an array of bytes.</param>
+        /// <returns>The generated passwort token.</returns>
+        /// <remarks>
+        /// <para>
+        ///     Handle with care and demonstration / test purposes: using this method implies the passcode
+        ///     is held somewhere in memory by your code. This is most likely to be completely unprotected.
+        /// </para>
+        /// <para>
+        ///     Use <see cref="AppendDigit"/>, <see cref="InsertDigit"/>, <see cref="SetDigit"/>,
+        ///     <see cref="RemoveDigit"/> to modify a token in release code.
+        /// </para>
+        /// </remarks>
+        public static PasswordToken FromPassCode(byte[] passcode)
+        {
+            PasswordToken token = new PasswordToken(passcode.Length);
+            foreach (byte value in passcode)
+            {
+                token.AppendDigit(value);
+            }
+
+            return token;
+        }
+
+        /// <summary>
+        ///     Create a token from provided code.
+        ///     Handle with care: you need to provide the correct digit count when there are leading zeros. 
+        /// </summary>
+        /// <param name="passcode">The passcode as integer.</param>
+        /// <param name="digits">The digit count to apply if there are leading zeros.</param>
+        /// <returns>The generated password token.</returns>
+        /// <remarks>
+        /// <para>
+        ///     Handle with care and demonstration / test purposes: using this method implies the passcode
+        ///     is held somewhere in memory by your code. This is most likely to be completely unprotected.
+        /// </para>
+        /// <para>
+        ///     Use <see cref="AppendDigit"/>, <see cref="InsertDigit"/>, <see cref="SetDigit"/>,
+        ///     <see cref="RemoveDigit"/> to modify a token in release code.
+        /// </para>
+        /// </remarks>
+        public static PasswordToken FromPassCode(int passcode, int? digits = null)
         {
             int count = 0;
             int copy = passcode;
@@ -35,6 +95,11 @@ namespace TwoFactorAuthenticator.Security
             {
                 count++;
                 copy /= 10;
+            }
+
+            if (digits.HasValue && digits.Value > count)
+            {
+                count = digits.Value;
             }
 
             PasswordToken token = new PasswordToken(count);
@@ -80,6 +145,10 @@ namespace TwoFactorAuthenticator.Security
             }
         }
 
+        /// <summary>
+        ///     Clears this token.
+        /// </summary>
+        /// <exception cref="ObjectDisposedException">The token was already disposed.</exception>
         public void Clear()
         {
             if (_storage == null)
@@ -91,6 +160,11 @@ namespace TwoFactorAuthenticator.Security
             this.Init();
         }
 
+        /// <summary>
+        ///     Append a single digit to the token.
+        /// </summary>
+        /// <param name="digit"></param>
+        /// <exception cref="ObjectDisposedException">The token was already disposed.</exception>
         public void AppendDigit(byte digit)
         {
             if (this.Length >= this.MaxLength)
@@ -159,6 +233,11 @@ namespace TwoFactorAuthenticator.Security
             }
         }
 
+        /// <summary>
+        ///     Remove the digit at the provided index. 
+        /// </summary>
+        /// <param name="index">Index of the digit to remove.</param>
+        /// <exception cref="ObjectDisposedException">The token was already disposed.</exception>
         public void RemoveDigit(int index)
         {
             if (_storage == null)
@@ -217,6 +296,13 @@ namespace TwoFactorAuthenticator.Security
             }
         }
 
+        /// <summary>
+        ///     Sets the digit at the provided index.
+        /// </summary>
+        /// <param name="index">Index of the digit.</param>
+        /// <param name="value">Value to set the digit to.</param>
+        /// <exception cref="IndexOutOfRangeException">Index is not valid.</exception>
+        /// <exception cref="ObjectDisposedException">The token was already disposed.</exception>
         public void SetDigit(int index, byte value)
         {
             if (index < 0 || index >= this.MaxLength)
@@ -244,6 +330,12 @@ namespace TwoFactorAuthenticator.Security
             }
         }
 
+        /// <summary>
+        ///     Validate this token against another one.
+        /// </summary>
+        /// <param name="other">The other token to validate with.</param>
+        /// <returns>True, if both tokens are the same.</returns>
+        /// <exception cref="ObjectDisposedException">One of the tokens was already disposed.</exception>
         public bool Validate(PasswordToken other)
         {
             if (_storage == null)

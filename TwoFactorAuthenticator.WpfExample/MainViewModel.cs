@@ -94,12 +94,25 @@ namespace WpfExample
         private void ExecuteTestCommand()
         {
             var tfA = new TwoFactorAuthenticator.Authenticator();
-            PasswordToken token = PasswordToken.FromPassCode(int.Parse(this.TestCode));
-            bool result = tfA.ValidateTwoFactorPIN(this.Secret, token);
+            bool result = tfA.ValidateTwoFactorPIN(this.Secret, CreateToken(this.TestCode));
 
             MessageBox.Show(result ? "Validated!" : "Incorrect", "Result");
         }
 
+        private static PasswordToken CreateToken(string tokenString)
+        {
+            var token = new PasswordToken(6);
+            foreach (char digit in tokenString)
+            {
+                if (char.IsDigit(digit))
+                {
+                    token.AppendDigit((byte)(digit - '0'));
+                }
+            }
+
+            return token;
+        }
+        
         private string _currentCodes;
 
         public string CurrentCodes

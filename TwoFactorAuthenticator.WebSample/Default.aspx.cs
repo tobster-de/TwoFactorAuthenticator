@@ -34,8 +34,7 @@ namespace TwoFactorAuthenticator.WebSample
         protected void btnValidate_Click(object sender, EventArgs e)
         {
             Authenticator tfa = new Authenticator();
-            PasswordToken token = PasswordToken.FromPassCode(int.Parse(this.txtCode.Text));
-            bool result = tfa.ValidateTwoFactorPIN(Request.QueryString["key"], token);
+            bool result = tfa.ValidateTwoFactorPIN(Request.QueryString["key"], CreateToken(this.txtCode.Text));
 
             if (result)
             {
@@ -47,6 +46,20 @@ namespace TwoFactorAuthenticator.WebSample
                 this.lblValidationResult.Text = this.txtCode.Text + " is not a valid PIN at UTC time " + DateTime.UtcNow.ToString();
                 this.lblValidationResult.ForeColor = System.Drawing.Color.Red;
             }
+        }
+        
+        private static PasswordToken CreateToken(string tokenString)
+        {
+            var token = new PasswordToken(6);
+            foreach (char digit in tokenString)
+            {
+                if (char.IsDigit(digit))
+                {
+                    token.AppendDigit((byte)(digit - '0'));
+                }
+            }
+
+            return token;
         }
     }
 }

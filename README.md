@@ -5,7 +5,7 @@ from [Microsoft](https://play.google.com/store/apps/details?id=com.azure.authent
 [Authy](https://play.google.com/store/apps/details?id=com.authy.authy) 
 or [LastPass](https://play.google.com/store/apps/details?id=com.lastpass.authenticator).
 
-[![Build Status](https://dev.azure.com/tkolb80/TwoFactorAuthenticator/_apis/build/status/TwoFactorAuthenticator?branchName=master)](https://dev.azure.com/tkolb80/TwoFactorAuthenticator/_build/latest?definitionId=2&branchName=master)
+[![Build Status](https://dev.azure.com/tkolb80/TwoFactorAuthenticator/_apis/build/status%2FCreate%20Package?branchName=main)](https://dev.azure.com/tkolb80/TwoFactorAuthenticator/_build/latest?definitionId=5&branchName=main)
 ![NuGet Version](https://img.shields.io/nuget/v/TwoFactorAuthenticator)
 ![NuGet Downloads](https://img.shields.io/nuget/dt/TwoFactorAuthenticator)
 
@@ -57,15 +57,24 @@ using (var unsafeToken = UnsafeToken.FromPasswordToken(token))
 
 ### Verification
 ```csharp
-string input = "123456";
+// demo example: holding the code in memory is unsafe
+byte[] digits = { 0, 1, 2, 3, 4, 5 };
 
 Authenticator tfa = new Authenticator();
-PasswordToken token = PasswordToken.FromPassCode(int.Parse(input));
+PasswordToken token = new PasswordToken();
+
+// perform append when a single digit is entered by user
+for (int i = 0; i < 6; i++)
+    result.AppendDigit(digits[i]);
 
 bool result = tfa.ValidateTwoFactorPIN(key, token);
 ```
 
 ## History
+
+### 1.1.2
+
+- see Issue #31: Addressed a problem of PasswordToken.FromPassCode with codes having leading zeros.
 
 ### 1.1.1
 
@@ -87,6 +96,10 @@ bool result = tfa.ValidateTwoFactorPIN(key, token);
 
 ## Common Pitfalls
 
-* Don't use the secret key and `ManualEntryKey` interchangeably. `ManualEntryKey` is used to enter into 
+- Ideally use PasswordToken.FromPassCode methods for low security, demonstration or test purposes only.
+  Using this methods implies the passcode is held somewhere in memory by your code. This is most likely 
+  to be completely unprotected.
+
+- Don't use the secret key and `ManualEntryKey` interchangeably. `ManualEntryKey` is used to enter into 
   the authenticator app when scanning a QR code is impossible and is derived from the secret key
   ([discussion example](https://github.com/BrandonPotter/GoogleAuthenticator/issues/54))
