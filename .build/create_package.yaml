@@ -2,8 +2,12 @@
 # It also supports publishing from a "develop" branch, which is not currently used in this project
 
 name: Create Package
-trigger: [ main ]
+trigger:
+  branches: 
+   include:
+       - main
 #pr: [ main ]
+
 
 variables:
   buildConfiguration: Release
