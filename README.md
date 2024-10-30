@@ -72,7 +72,7 @@ bool result = tfa.ValidateTwoFactorPIN(key, token);
 
 ## History
 
-### next
+### 1.2.0
 
 Upstream changes:
 - Added support for configuring the "time step". This is basically how often the code changes.
