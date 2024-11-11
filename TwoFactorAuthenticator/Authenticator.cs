@@ -30,7 +30,7 @@ namespace TwoFactorAuthenticator
         ///
         /// Defaults to hash algorithm SHA1 and time step duration of 30 seconds.
         /// </summary>        
-        public Authenticator() : this(HashType.SHA1)
+        public Authenticator() : this(TimeSpan.Zero)
         {
         }
 
@@ -41,7 +41,7 @@ namespace TwoFactorAuthenticator
         /// Defaults to hash algorithm SHA1.
         /// </summary>
         /// <param name="timeStepDuration">The TOTP time step duration to use.</param>
-        public Authenticator(int timeStepDuration) : this(HashType.SHA1, timeStepDuration)
+        public Authenticator(int timeStepDuration) : this(TimeSpan.Zero, timeStepDuration: timeStepDuration)
         {
         }
 
@@ -52,7 +52,7 @@ namespace TwoFactorAuthenticator
         /// </summary>
         /// <param name="hashType">Hash algorithm to use.</param>
         /// <param name="timeStepDuration">The TOTP time step duration to use.</param>
-        public Authenticator(HashType hashType, int timeStepDuration = 30) : this(TimeSpan.FromSeconds(30), hashType, timeStepDuration)
+        public Authenticator(HashType hashType, int timeStepDuration = 30) : this(TimeSpan.Zero, hashType, timeStepDuration)
         {
         }
 

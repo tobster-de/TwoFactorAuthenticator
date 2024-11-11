@@ -72,6 +72,10 @@ bool result = tfa.ValidateTwoFactorPIN(key, token);
 
 ## History
 
+### next
+
+- Fixed constructors after recent merges to match their description
+
 ### 1.2.0
 
 Upstream changes:
