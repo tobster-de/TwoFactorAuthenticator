@@ -1,0 +1,15 @@
+# https://github.com/wei/pull?tab=readme-ov-file#getting-started
+
+version: "1"
+rules:
+  - base: upstream                      # Required. Target branch of this fork  
+    upstream: BrandonPotter:master      # Required. "owner:branch" of upstream repo
+    mergeMethod: hardreset              # Optional, one of [none, merge, squash, rebase, hardreset], Default: none.
+#  - base: main
+#    upstream: BrandonPotter:master      # Required. Can be a branch in the same forked repo.
+#    assignees:                          # Optional
+#      - tobster-de
+#    reviewers:                          # Optional
+#      - tobster-de
+#    conflictReviewers:                  # Optional, on merge conflict assign a reviewer
+#      - tobster-de
