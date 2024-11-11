@@ -78,12 +78,12 @@ namespace WpfExample
             }
         }
 
-        private string _testCode;
+        private PasswordToken _token;
 
-        public string TestCode
+        public PasswordToken Token
         {
-            get => _testCode;
-            set => this.SetProperty(ref _testCode, value);
+            get => _token ?? new PasswordToken();
+            set => this.SetProperty(ref _token, value);
         }
 
         private ICommand _testCommand;
@@ -94,7 +94,7 @@ namespace WpfExample
         private void ExecuteTestCommand()
         {
             var tfA = new TwoFactorAuthenticator.Authenticator();
-            bool result = tfA.ValidateTwoFactorPIN(this.Secret, CreateToken(this.TestCode));
+            bool result = tfA.ValidateTwoFactorPIN(this.Secret, this.Token);
 
             MessageBox.Show(result ? "Validated!" : "Incorrect", "Result");
         }
