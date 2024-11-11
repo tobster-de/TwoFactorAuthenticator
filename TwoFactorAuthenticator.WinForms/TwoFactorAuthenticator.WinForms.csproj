@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net472;net10.0-windows;net8.0-windows</TargetFrameworks>
+        <TargetFrameworks>net10.0-windows;net472</TargetFrameworks>
         <Product>Two-Factor Authenticator</Product>
-        <Title>Two-Factor authentication QR code generation library</Title>
+        <Title>Two-Factor authentication WinForms library</Title>
         <Description>Two-Factor authentication library - Windows.Forms controls</Description>
         <Authors>Tobias Kolb</Authors>
         <Company>Open source community</Company>

@@ -9,6 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\TwoFactorAuthenticator.Presentation\TwoFactorAuthenticator.Presentation.csproj" />
       <ProjectReference Include="..\TwoFactorAuthenticator.QrCoder\TwoFactorAuthenticator.QrCoder.csproj" />
       <ProjectReference Include="..\TwoFactorAuthenticator\TwoFactorAuthenticator.csproj" />
     </ItemGroup>

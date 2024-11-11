@@ -184,7 +184,7 @@ namespace TwoFactorAuthenticator.WinForms
         /// <inheritdoc />
         public override Size GetPreferredSize(Size proposedSize)
         {
-            return new Size(6 * this.BoxSize.Width + 5 * this.BoxGap + 1, this.BoxSize.Height + 1);
+            return new Size(_tokenLength * this.BoxSize.Width + (_tokenLength - 1) * this.BoxGap + 1, this.BoxSize.Height + 1);
         }
 
         private void InsertDigit(byte digit)

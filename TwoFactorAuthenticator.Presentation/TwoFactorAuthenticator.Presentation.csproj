@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>Library</OutputType>
+        <LangVersion>latest</LangVersion>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <UseWPF>true</UseWPF>
+        <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+        <TargetFrameworks>net10.0-windows;net472</TargetFrameworks>
+        <Product>Two-Factor Authenticator</Product>
+        <Title>Two-Factor authentication Presentation library</Title>
+        <Description>Two-Factor authentication library - Windows Presentation Foundation controls</Description>
+        <Authors>Tobias Kolb</Authors>
+        <Company>Open source community</Company>
+        <Version>1.0.0</Version>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/tobster-de/TwoFactorAuthenticator</PackageProjectUrl>
+        <PackageId>TwoFactorAuthenticator.Presentation</PackageId>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <UseWpf>true</UseWpf>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+        <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+        <None Include="README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\TwoFactorAuthenticator\TwoFactorAuthenticator.csproj" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <Compile Update="FactorControl.cs">
+        <SubType>UserControl</SubType>
+      </Compile>
+    </ItemGroup>
+</Project>
