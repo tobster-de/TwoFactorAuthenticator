@@ -72,6 +72,11 @@ bool result = tfa.ValidateTwoFactorPIN(key, token);
 
 ## History
 
+### 1.2.1
+
+- explicitly target .NET10
+- supports TwoFactorAuthenticator.Presentation package with WPF control
+
 ### 1.2.0
 
 Upstream changes:
