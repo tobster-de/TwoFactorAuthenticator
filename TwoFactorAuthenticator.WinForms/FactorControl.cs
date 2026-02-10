@@ -37,18 +37,21 @@ namespace TwoFactorAuthenticator.WinForms
         /// Gets or sets a value indicating whether copying the token text to the clipboard. 
         /// </summary>
         [EditorBrowsable]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public bool AllowCopyToClipboard { get; set; }
 
         /// <summary>
         /// Gets or sets the mode of how to handle paste of clipboard data.
         /// </summary>
         [EditorBrowsable]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public PasteFromClipboardMode PasteFromClipboardMode { get; set; } = PasteFromClipboardMode.PasteFullToken;
 
         /// <summary>
         /// The length of the token, defaults to 6
         /// </summary>
         [EditorBrowsable]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int TokenLength
         {
             get => _tokenLength;
@@ -69,24 +72,28 @@ namespace TwoFactorAuthenticator.WinForms
         /// The corner radius of a digit box.
         /// </summary>
         [EditorBrowsable]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int CornerRadius { get; set; } = 5;
 
         /// <summary>
         /// The color of the border of a digit box.
         /// </summary>
         [EditorBrowsable]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Color BorderColor { get; set; } = Color.Gray;
 
         /// <summary>
         /// The size of each individual digit box.
         /// </summary>
         [EditorBrowsable]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Size BoxSize { get; set; } = new Size(25, 25);
 
         /// <summary>
         /// The gap between two digit boxes.
         /// </summary>
         [EditorBrowsable]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int BoxGap { get; set; } = 5;
 
         /// <summary>
