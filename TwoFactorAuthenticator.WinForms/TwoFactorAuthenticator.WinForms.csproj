@@ -7,12 +7,15 @@
         <Description>Two-Factor authentication library - Windows.Forms controls</Description>
         <Authors>Tobias Kolb</Authors>
         <Company>Open source community</Company>
-        <Version>1.1.0</Version>
+        <Version>1.1.1</Version>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/tobster-de/TwoFactorAuthenticator</PackageProjectUrl>
         <PackageId>TwoFactorAuthenticator.WinForms</PackageId>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <UseWindowsForms>true</UseWindowsForms>
+        <PackageReleaseNotes>
+- Updated .NET to latest LTS version
+        </PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>
