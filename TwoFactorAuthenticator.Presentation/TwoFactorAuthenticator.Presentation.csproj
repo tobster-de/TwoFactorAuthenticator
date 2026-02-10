@@ -35,4 +35,12 @@
         <SubType>UserControl</SubType>
       </Compile>
     </ItemGroup>
+
+    <PropertyGroup>
+        <AllowedOutputExtensionsInPackageBuildOutputFolder>
+            $(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb
+        </AllowedOutputExtensionsInPackageBuildOutputFolder>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    </PropertyGroup>
 </Project>
