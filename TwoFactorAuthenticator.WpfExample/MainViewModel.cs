@@ -55,7 +55,7 @@ namespace WpfExample
         private void Test()
         {
             var tfA = new TwoFactorAuthenticator.Authenticator();
-            bool result = tfA.ValidateTwoFactorPIN(this.Secret, this.Token);
+            bool result = tfA.ValidateTwoFactorPIN(this.Secret, this.Token, secretIsBase32: false);
 
             MessageBox.Show(result ? "Validated!" : "Incorrect", "Result");
         }

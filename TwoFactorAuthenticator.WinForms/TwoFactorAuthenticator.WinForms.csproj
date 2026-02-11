@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net10.0-windows;net472</TargetFrameworks>
+        <TargetFrameworks>net10.0-windows;net8.0-windows;net472</TargetFrameworks>
         <Product>Two-Factor Authenticator</Product>
         <Title>Two-Factor authentication WinForms library</Title>
         <Description>Two-Factor authentication library - Windows.Forms controls</Description>
@@ -15,11 +15,12 @@
         <UseWindowsForms>true</UseWindowsForms>
         <PackageReleaseNotes>
 - Updated .NET to latest LTS version
+- support .NET 10 explicitly
         </PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.102" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.103" PrivateAssets="All" />
         <None Include="README.md" Pack="true" PackagePath="\" />
     </ItemGroup>
 

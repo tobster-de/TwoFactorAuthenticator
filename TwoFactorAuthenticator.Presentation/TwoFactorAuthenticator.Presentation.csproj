@@ -3,9 +3,8 @@
         <OutputType>Library</OutputType>
         <LangVersion>latest</LangVersion>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-        <UseWPF>true</UseWPF>
         <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-        <TargetFrameworks>net10.0-windows;net472</TargetFrameworks>
+        <TargetFrameworks>net10.0-windows;net8.0-windows;net472</TargetFrameworks>
         <Product>Two-Factor Authenticator</Product>
         <Title>Two-Factor authentication Presentation library</Title>
         <Description>Two-Factor authentication library - Windows Presentation Foundation controls</Description>
@@ -17,12 +16,16 @@
         <PackageId>TwoFactorAuthenticator.Presentation</PackageId>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <UseWpf>true</UseWpf>
+        <PackageReleaseNotes>
+- introduce WPF control
+- support .NET 10
+        </PackageReleaseNotes>
     </PropertyGroup>
     
     <ItemGroup>
         <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
         <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.103" PrivateAssets="All" />
         <None Include="README.md" Pack="true" PackagePath="\" />
     </ItemGroup>
 
