@@ -12,3 +12,7 @@ updates:
     directory: "/TwoFactorAuthenticator.Tests"
     schedule:
       interval: "weekly"
+    groups:
+      nuget-packages:
+        patterns:
+          - "*"
